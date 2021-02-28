@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp" />
+
+    <ImageButton
+        android:id="@+id/shuffleAll"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_shuffle"
+        android:tint="?android:textColorPrimary"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/style"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_style"
+        android:tint="?android:textColorPrimary"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/sort"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_sort"
+        android:tint="?android:textColorPrimary"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/grid"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_grid"
+        android:tint="?android:textColorPrimary"
+        tools:ignore="ContentDescription" />
+</LinearLayout>

@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Symphony</string>
+    <string name="app_name_colored"><font color="#F44336">S</font>ymphony</string>
+    <string name="songs">Songs</string>
+    <string name="albums">Albums</string>
+    <string name="artists">Artists</string>
+    <string name="playlists">Playlists</string>
+
+    <string name="play">Play</string>
+    <string name="shuffle_all">Shuffle All</string>
+    <string name="more_albums_from_this_artist">More albums from this artist</string>
+
+    <string name="layout_style">Layout style</string>
+    <string name="plain">Plain</string>
+    <string name="card">Card</string>
+    <string name="colored">Colored</string>
+    <string name="circular">Circular</string>
+
+    <string name="image_style">Image style</string>
+    <string name="square">Square</string>
+    <string name="circle">Circle</string>
+    <string name="rounded_corners">Rounded corners</string>
+    <string name="outline">Outline</string>
+
+    <string name="title">Title</string>
+    <string name="album">Album</string>
+    <string name="artist">Artist</string>
+    <string name="year">Year</string>
+
+    <string name="sort_by">Sort by</string>
+    <string name="sort_order">Sort order</string>
+
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+
+    <string name="add_to_queue">Add to queue</string>
+    <string name="play_next">Play next</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="blacklist">Blacklist</string>
+
+    <string name="notification_channel_name">Playback</string>
+    <string name="notification_channel_description">Playback notifications</string>
+
+    <string name="up_next">Up next • %s</string>
+
+    <string name="up_next_title">Up next</string>
+    <string name="lyrics_title">Lyrics</string>
+
+    <string name="no_lyrics_found">No lyrics found for this song</string>
+</resources>

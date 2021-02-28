@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/colorView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/colorView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/slidingUpPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        app:umanoScrollableView="@id/bottomDetailsViewPager"
+        app:umanoShadowHeight="0dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/backgroundView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.symphony.projjal.customviews.SquareFrameLayout
+                    android:id="@+id/viewPagerContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/nowPlayingViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.symphony.projjal.customviews.SquareFrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#40000000"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/currentPlaybackPosition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatSeekBar
+                        android:id="@+id/seekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:progressBackgroundTint="@android:color/transparent"
+                        android:progressTint="@android:color/transparent"
+                        android:thumb="@drawable/thumb_drawable"
+                        android:thumbOffset="0dp"
+                        android:thumbTint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingTop="24dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="24dp">
+
+                    <ImageButton
+                        android:id="@+id/shuffle"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_shuffle"
+                        tools:ignore="ContentDescription" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/playPrevious"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:padding="16dp"
+                            android:src="@drawable/ic_previous"
+                            tools:ignore="ContentDescription" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/playPause"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="0dp"
+                            android:src="@drawable/ic_play"
+                            app:backgroundTint="@color/white"
+                            app:tint="@color/black"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:id="@+id/playNext"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:padding="16dp"
+                            android:src="@drawable/ic_next"
+                            tools:ignore="ContentDescription" />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/repeat"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_repeat"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bottomPartContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            app:cardBackgroundColor="#80000000"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:id="@+id/bottomDetailsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/nowPlayingCurrentSongFragmentContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    app:tabIndicatorColor="@color/white"
+                    app:tabSelectedTextColor="@color/grey_400" />
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/bottomDetailsViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?android:windowBackground" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+</FrameLayout>

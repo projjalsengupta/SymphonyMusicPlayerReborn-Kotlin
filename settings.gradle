@@ -1,0 +1,6 @@
+include ':themeengine'
+include ':bitmaputils'
+include ':colorutils'
+include ':mediastorequery'
+include ':app'
+rootProject.name = "Symphony"

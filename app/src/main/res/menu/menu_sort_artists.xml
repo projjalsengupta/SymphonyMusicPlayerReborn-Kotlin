@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/sort_order">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/ascending"
+                    android:title="@string/ascending" />
+                <item
+                    android:id="@+id/descending"
+                    android:title="@string/descending" />
+            </group>
+        </menu>
+    </item>
+</menu>

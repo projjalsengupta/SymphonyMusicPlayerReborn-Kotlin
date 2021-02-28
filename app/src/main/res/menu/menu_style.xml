@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/imageStyle"
+        android:title="@string/image_style">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/imageStyleSquare"
+                    android:title="@string/square" />
+                <item
+                    android:id="@+id/imageStyleCircle"
+                    android:title="@string/circle" />
+                <item
+                    android:id="@+id/imageStyleRoundedCorners"
+                    android:title="@string/rounded_corners" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/layoutStyle"
+        android:title="@string/layout_style">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/layoutStylePlain"
+                    android:title="@string/plain" />
+                <item
+                    android:id="@+id/layoutStyleCard"
+                    android:title="@string/card" />
+                <item
+                    android:id="@+id/layoutStyleColored"
+                    android:title="@string/colored" />
+                <item
+                    android:id="@+id/layoutStyleCircular"
+                    android:title="@string/circular" />
+                <item
+                    android:id="@+id/layoutStyleOutline"
+                    android:title="@string/outline" />
+            </group>
+        </menu>
+    </item>
+</menu>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/one"
+            android:title="1"
+            tools:ignore="HardcodedText" />
+        <item
+            android:id="@+id/two"
+            android:title="2"
+            tools:ignore="HardcodedText" />
+        <item
+            android:id="@+id/three"
+            android:title="3"
+            tools:ignore="HardcodedText" />
+        <item
+            android:id="@+id/four"
+            android:title="4"
+            tools:ignore="HardcodedText" />
+    </group>
+</menu>

@@ -1,0 +1,1411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="behavior_peekHeight">50dp</item>
+    </style>
+
+    <style name="Symphony.Dark" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="android:windowBackground">@color/grey_900</item>
+        <item name="android:textColorPrimary">@color/dark_bg_light_primary_text</item>
+        <item name="android:textColorSecondary">@color/dark_bg_light_secondary_text</item>
+        <item name="android:textColorHint">@color/dark_bg_light_hint_text</item>
+        <item name="android:actionButtonStyle">@style/ActionButtonWhite</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionButtonWhite</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="Symphony.Black" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:actionButtonStyle">@style/ActionButtonWhite</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionButtonWhite</item>
+        <item name="android:textColorPrimary">@color/dark_bg_light_primary_text</item>
+        <item name="android:textColorSecondary">@color/dark_bg_light_secondary_text</item>
+        <item name="android:textColorHint">@color/dark_bg_light_hint_text</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="Symphony.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="android:windowBackground">@color/grey_50</item>
+        <item name="android:actionButtonStyle">@style/ActionButtonBlack</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionButtonBlack</item>
+        <item name="android:textColorPrimary">@color/light_bg_dark_primary_text</item>
+        <item name="android:textColorSecondary">@color/light_bg_dark_secondary_text</item>
+        <item name="android:textColorHint">@color/light_bg_dark_hint_text</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="Symphony.Light.Theme1">
+        <item name="colorAccent">#ff8a80</item>
+        <item name="colorPrimary">#ff8a80</item>
+        <item name="colorControlActivated">#ff8a80</item>
+        <item name="android:colorEdgeEffect">#ff8a80</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme1">
+        <item name="colorAccent">#ff8a80</item>
+        <item name="colorPrimary">#ff8a80</item>
+        <item name="colorControlActivated">#ff8a80</item>
+        <item name="android:colorEdgeEffect">#ff8a80</item>
+    </style>
+
+    <style name="Symphony.Black.Theme1">
+        <item name="colorAccent">#ff8a80</item>
+        <item name="colorPrimary">#ff8a80</item>
+        <item name="colorControlActivated">#ff8a80</item>
+        <item name="android:colorEdgeEffect">#ff8a80</item>
+    </style>
+
+    <style name="Symphony.Light.Theme2">
+        <item name="colorAccent">#ff5252</item>
+        <item name="colorPrimary">#ff5252</item>
+        <item name="colorControlActivated">#ff5252</item>
+        <item name="android:colorEdgeEffect">#ff5252</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme2">
+        <item name="colorAccent">#ff5252</item>
+        <item name="colorPrimary">#ff5252</item>
+        <item name="colorControlActivated">#ff5252</item>
+        <item name="android:colorEdgeEffect">#ff5252</item>
+    </style>
+
+    <style name="Symphony.Black.Theme2">
+        <item name="colorAccent">#ff5252</item>
+        <item name="colorPrimary">#ff5252</item>
+        <item name="colorControlActivated">#ff5252</item>
+        <item name="android:colorEdgeEffect">#ff5252</item>
+    </style>
+
+    <style name="Symphony.Light.Theme3">
+        <item name="colorAccent">#ff1744</item>
+        <item name="colorPrimary">#ff1744</item>
+        <item name="colorControlActivated">#ff1744</item>
+        <item name="android:colorEdgeEffect">#ff1744</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme3">
+        <item name="colorAccent">#ff1744</item>
+        <item name="colorPrimary">#ff1744</item>
+        <item name="colorControlActivated">#ff1744</item>
+        <item name="android:colorEdgeEffect">#ff1744</item>
+    </style>
+
+    <style name="Symphony.Black.Theme3">
+        <item name="colorAccent">#ff1744</item>
+        <item name="colorPrimary">#ff1744</item>
+        <item name="colorControlActivated">#ff1744</item>
+        <item name="android:colorEdgeEffect">#ff1744</item>
+    </style>
+
+    <style name="Symphony.Light.Theme4">
+        <item name="colorAccent">#d50000</item>
+        <item name="colorPrimary">#d50000</item>
+        <item name="colorControlActivated">#d50000</item>
+        <item name="android:colorEdgeEffect">#d50000</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme4">
+        <item name="colorAccent">#d50000</item>
+        <item name="colorPrimary">#d50000</item>
+        <item name="colorControlActivated">#d50000</item>
+        <item name="android:colorEdgeEffect">#d50000</item>
+    </style>
+
+    <style name="Symphony.Black.Theme4">
+        <item name="colorAccent">#d50000</item>
+        <item name="colorPrimary">#d50000</item>
+        <item name="colorControlActivated">#d50000</item>
+        <item name="android:colorEdgeEffect">#d50000</item>
+    </style>
+
+    <style name="Symphony.Light.Theme5">
+        <item name="colorAccent">#ff80ab</item>
+        <item name="colorPrimary">#ff80ab</item>
+        <item name="colorControlActivated">#ff80ab</item>
+        <item name="android:colorEdgeEffect">#ff80ab</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme5">
+        <item name="colorAccent">#ff80ab</item>
+        <item name="colorPrimary">#ff80ab</item>
+        <item name="colorControlActivated">#ff80ab</item>
+        <item name="android:colorEdgeEffect">#ff80ab</item>
+    </style>
+
+    <style name="Symphony.Black.Theme5">
+        <item name="colorAccent">#ff80ab</item>
+        <item name="colorPrimary">#ff80ab</item>
+        <item name="colorControlActivated">#ff80ab</item>
+        <item name="android:colorEdgeEffect">#ff80ab</item>
+    </style>
+
+    <style name="Symphony.Light.Theme6">
+        <item name="colorAccent">#ff4081</item>
+        <item name="colorPrimary">#ff4081</item>
+        <item name="colorControlActivated">#ff4081</item>
+        <item name="android:colorEdgeEffect">#ff4081</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme6">
+        <item name="colorAccent">#ff4081</item>
+        <item name="colorPrimary">#ff4081</item>
+        <item name="colorControlActivated">#ff4081</item>
+        <item name="android:colorEdgeEffect">#ff4081</item>
+    </style>
+
+    <style name="Symphony.Black.Theme6">
+        <item name="colorAccent">#ff4081</item>
+        <item name="colorPrimary">#ff4081</item>
+        <item name="colorControlActivated">#ff4081</item>
+        <item name="android:colorEdgeEffect">#ff4081</item>
+    </style>
+
+    <style name="Symphony.Light.Theme7">
+        <item name="colorAccent">#f50057</item>
+        <item name="colorPrimary">#f50057</item>
+        <item name="colorControlActivated">#f50057</item>
+        <item name="android:colorEdgeEffect">#f50057</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme7">
+        <item name="colorAccent">#f50057</item>
+        <item name="colorPrimary">#f50057</item>
+        <item name="colorControlActivated">#f50057</item>
+        <item name="android:colorEdgeEffect">#f50057</item>
+    </style>
+
+    <style name="Symphony.Black.Theme7">
+        <item name="colorAccent">#f50057</item>
+        <item name="colorPrimary">#f50057</item>
+        <item name="colorControlActivated">#f50057</item>
+        <item name="android:colorEdgeEffect">#f50057</item>
+    </style>
+
+    <style name="Symphony.Light.Theme8">
+        <item name="colorAccent">#c51162</item>
+        <item name="colorPrimary">#c51162</item>
+        <item name="colorControlActivated">#c51162</item>
+        <item name="android:colorEdgeEffect">#c51162</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme8">
+        <item name="colorAccent">#c51162</item>
+        <item name="colorPrimary">#c51162</item>
+        <item name="colorControlActivated">#c51162</item>
+        <item name="android:colorEdgeEffect">#c51162</item>
+    </style>
+
+    <style name="Symphony.Black.Theme8">
+        <item name="colorAccent">#c51162</item>
+        <item name="colorPrimary">#c51162</item>
+        <item name="colorControlActivated">#c51162</item>
+        <item name="android:colorEdgeEffect">#c51162</item>
+    </style>
+
+    <style name="Symphony.Light.Theme9">
+        <item name="colorAccent">#ea80fc</item>
+        <item name="colorPrimary">#ea80fc</item>
+        <item name="colorControlActivated">#ea80fc</item>
+        <item name="android:colorEdgeEffect">#ea80fc</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme9">
+        <item name="colorAccent">#ea80fc</item>
+        <item name="colorPrimary">#ea80fc</item>
+        <item name="colorControlActivated">#ea80fc</item>
+        <item name="android:colorEdgeEffect">#ea80fc</item>
+    </style>
+
+    <style name="Symphony.Black.Theme9">
+        <item name="colorAccent">#ea80fc</item>
+        <item name="colorPrimary">#ea80fc</item>
+        <item name="colorControlActivated">#ea80fc</item>
+        <item name="android:colorEdgeEffect">#ea80fc</item>
+    </style>
+
+    <style name="Symphony.Light.Theme10">
+        <item name="colorAccent">#e040fb</item>
+        <item name="colorPrimary">#e040fb</item>
+        <item name="colorControlActivated">#e040fb</item>
+        <item name="android:colorEdgeEffect">#e040fb</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme10">
+        <item name="colorAccent">#e040fb</item>
+        <item name="colorPrimary">#e040fb</item>
+        <item name="colorControlActivated">#e040fb</item>
+        <item name="android:colorEdgeEffect">#e040fb</item>
+    </style>
+
+    <style name="Symphony.Black.Theme10">
+        <item name="colorAccent">#e040fb</item>
+        <item name="colorPrimary">#e040fb</item>
+        <item name="colorControlActivated">#e040fb</item>
+        <item name="android:colorEdgeEffect">#e040fb</item>
+    </style>
+
+    <style name="Symphony.Light.Theme11">
+        <item name="colorAccent">#d500f9</item>
+        <item name="colorPrimary">#d500f9</item>
+        <item name="colorControlActivated">#d500f9</item>
+        <item name="android:colorEdgeEffect">#d500f9</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme11">
+        <item name="colorAccent">#d500f9</item>
+        <item name="colorPrimary">#d500f9</item>
+        <item name="colorControlActivated">#d500f9</item>
+        <item name="android:colorEdgeEffect">#d500f9</item>
+    </style>
+
+    <style name="Symphony.Black.Theme11">
+        <item name="colorAccent">#d500f9</item>
+        <item name="colorPrimary">#d500f9</item>
+        <item name="colorControlActivated">#d500f9</item>
+        <item name="android:colorEdgeEffect">#d500f9</item>
+    </style>
+
+    <style name="Symphony.Light.Theme12">
+        <item name="colorAccent">#aa00ff</item>
+        <item name="colorPrimary">#aa00ff</item>
+        <item name="colorControlActivated">#aa00ff</item>
+        <item name="android:colorEdgeEffect">#aa00ff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme12">
+        <item name="colorAccent">#aa00ff</item>
+        <item name="colorPrimary">#aa00ff</item>
+        <item name="colorControlActivated">#aa00ff</item>
+        <item name="android:colorEdgeEffect">#aa00ff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme12">
+        <item name="colorAccent">#aa00ff</item>
+        <item name="colorPrimary">#aa00ff</item>
+        <item name="colorControlActivated">#aa00ff</item>
+        <item name="android:colorEdgeEffect">#aa00ff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme13">
+        <item name="colorAccent">#b388ff</item>
+        <item name="colorPrimary">#b388ff</item>
+        <item name="colorControlActivated">#b388ff</item>
+        <item name="android:colorEdgeEffect">#b388ff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme13">
+        <item name="colorAccent">#b388ff</item>
+        <item name="colorPrimary">#b388ff</item>
+        <item name="colorControlActivated">#b388ff</item>
+        <item name="android:colorEdgeEffect">#b388ff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme13">
+        <item name="colorAccent">#b388ff</item>
+        <item name="colorPrimary">#b388ff</item>
+        <item name="colorControlActivated">#b388ff</item>
+        <item name="android:colorEdgeEffect">#b388ff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme14">
+        <item name="colorAccent">#7c4dff</item>
+        <item name="colorPrimary">#7c4dff</item>
+        <item name="colorControlActivated">#7c4dff</item>
+        <item name="android:colorEdgeEffect">#7c4dff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme14">
+        <item name="colorAccent">#7c4dff</item>
+        <item name="colorPrimary">#7c4dff</item>
+        <item name="colorControlActivated">#7c4dff</item>
+        <item name="android:colorEdgeEffect">#7c4dff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme14">
+        <item name="colorAccent">#7c4dff</item>
+        <item name="colorPrimary">#7c4dff</item>
+        <item name="colorControlActivated">#7c4dff</item>
+        <item name="android:colorEdgeEffect">#7c4dff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme15">
+        <item name="colorAccent">#651fff</item>
+        <item name="colorPrimary">#651fff</item>
+        <item name="colorControlActivated">#651fff</item>
+        <item name="android:colorEdgeEffect">#651fff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme15">
+        <item name="colorAccent">#651fff</item>
+        <item name="colorPrimary">#651fff</item>
+        <item name="colorControlActivated">#651fff</item>
+        <item name="android:colorEdgeEffect">#651fff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme15">
+        <item name="colorAccent">#651fff</item>
+        <item name="colorPrimary">#651fff</item>
+        <item name="colorControlActivated">#651fff</item>
+        <item name="android:colorEdgeEffect">#651fff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme16">
+        <item name="colorAccent">#6200ea</item>
+        <item name="colorPrimary">#6200ea</item>
+        <item name="colorControlActivated">#6200ea</item>
+        <item name="android:colorEdgeEffect">#6200ea</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme16">
+        <item name="colorAccent">#6200ea</item>
+        <item name="colorPrimary">#6200ea</item>
+        <item name="colorControlActivated">#6200ea</item>
+        <item name="android:colorEdgeEffect">#6200ea</item>
+    </style>
+
+    <style name="Symphony.Black.Theme16">
+        <item name="colorAccent">#6200ea</item>
+        <item name="colorPrimary">#6200ea</item>
+        <item name="colorControlActivated">#6200ea</item>
+        <item name="android:colorEdgeEffect">#6200ea</item>
+    </style>
+
+    <style name="Symphony.Light.Theme17">
+        <item name="colorAccent">#8c9eff</item>
+        <item name="colorPrimary">#8c9eff</item>
+        <item name="colorControlActivated">#8c9eff</item>
+        <item name="android:colorEdgeEffect">#8c9eff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme17">
+        <item name="colorAccent">#8c9eff</item>
+        <item name="colorPrimary">#8c9eff</item>
+        <item name="colorControlActivated">#8c9eff</item>
+        <item name="android:colorEdgeEffect">#8c9eff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme17">
+        <item name="colorAccent">#8c9eff</item>
+        <item name="colorPrimary">#8c9eff</item>
+        <item name="colorControlActivated">#8c9eff</item>
+        <item name="android:colorEdgeEffect">#8c9eff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme18">
+        <item name="colorAccent">#536dfe</item>
+        <item name="colorPrimary">#536dfe</item>
+        <item name="colorControlActivated">#536dfe</item>
+        <item name="android:colorEdgeEffect">#536dfe</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme18">
+        <item name="colorAccent">#536dfe</item>
+        <item name="colorPrimary">#536dfe</item>
+        <item name="colorControlActivated">#536dfe</item>
+        <item name="android:colorEdgeEffect">#536dfe</item>
+    </style>
+
+    <style name="Symphony.Black.Theme18">
+        <item name="colorAccent">#536dfe</item>
+        <item name="colorPrimary">#536dfe</item>
+        <item name="colorControlActivated">#536dfe</item>
+        <item name="android:colorEdgeEffect">#536dfe</item>
+    </style>
+
+    <style name="Symphony.Light.Theme19">
+        <item name="colorAccent">#3d5afe</item>
+        <item name="colorPrimary">#3d5afe</item>
+        <item name="colorControlActivated">#3d5afe</item>
+        <item name="android:colorEdgeEffect">#3d5afe</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme19">
+        <item name="colorAccent">#3d5afe</item>
+        <item name="colorPrimary">#3d5afe</item>
+        <item name="colorControlActivated">#3d5afe</item>
+        <item name="android:colorEdgeEffect">#3d5afe</item>
+    </style>
+
+    <style name="Symphony.Black.Theme19">
+        <item name="colorAccent">#3d5afe</item>
+        <item name="colorPrimary">#3d5afe</item>
+        <item name="colorControlActivated">#3d5afe</item>
+        <item name="android:colorEdgeEffect">#3d5afe</item>
+    </style>
+
+    <style name="Symphony.Light.Theme20">
+        <item name="colorAccent">#304ffe</item>
+        <item name="colorPrimary">#304ffe</item>
+        <item name="colorControlActivated">#304ffe</item>
+        <item name="android:colorEdgeEffect">#304ffe</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme20">
+        <item name="colorAccent">#304ffe</item>
+        <item name="colorPrimary">#304ffe</item>
+        <item name="colorControlActivated">#304ffe</item>
+        <item name="android:colorEdgeEffect">#304ffe</item>
+    </style>
+
+    <style name="Symphony.Black.Theme20">
+        <item name="colorAccent">#304ffe</item>
+        <item name="colorPrimary">#304ffe</item>
+        <item name="colorControlActivated">#304ffe</item>
+        <item name="android:colorEdgeEffect">#304ffe</item>
+    </style>
+
+    <style name="Symphony.Light.Theme21">
+        <item name="colorAccent">#82b1ff</item>
+        <item name="colorPrimary">#82b1ff</item>
+        <item name="colorControlActivated">#82b1ff</item>
+        <item name="android:colorEdgeEffect">#82b1ff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme21">
+        <item name="colorAccent">#82b1ff</item>
+        <item name="colorPrimary">#82b1ff</item>
+        <item name="colorControlActivated">#82b1ff</item>
+        <item name="android:colorEdgeEffect">#82b1ff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme21">
+        <item name="colorAccent">#82b1ff</item>
+        <item name="colorPrimary">#82b1ff</item>
+        <item name="colorControlActivated">#82b1ff</item>
+        <item name="android:colorEdgeEffect">#82b1ff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme22">
+        <item name="colorAccent">#448aff</item>
+        <item name="colorPrimary">#448aff</item>
+        <item name="colorControlActivated">#448aff</item>
+        <item name="android:colorEdgeEffect">#448aff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme22">
+        <item name="colorAccent">#448aff</item>
+        <item name="colorPrimary">#448aff</item>
+        <item name="colorControlActivated">#448aff</item>
+        <item name="android:colorEdgeEffect">#448aff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme22">
+        <item name="colorAccent">#448aff</item>
+        <item name="colorPrimary">#448aff</item>
+        <item name="colorControlActivated">#448aff</item>
+        <item name="android:colorEdgeEffect">#448aff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme23">
+        <item name="colorAccent">#2979ff</item>
+        <item name="colorPrimary">#2979ff</item>
+        <item name="colorControlActivated">#2979ff</item>
+        <item name="android:colorEdgeEffect">#2979ff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme23">
+        <item name="colorAccent">#2979ff</item>
+        <item name="colorPrimary">#2979ff</item>
+        <item name="colorControlActivated">#2979ff</item>
+        <item name="android:colorEdgeEffect">#2979ff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme23">
+        <item name="colorAccent">#2979ff</item>
+        <item name="colorPrimary">#2979ff</item>
+        <item name="colorControlActivated">#2979ff</item>
+        <item name="android:colorEdgeEffect">#2979ff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme24">
+        <item name="colorAccent">#2962ff</item>
+        <item name="colorPrimary">#2962ff</item>
+        <item name="colorControlActivated">#2962ff</item>
+        <item name="android:colorEdgeEffect">#2962ff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme24">
+        <item name="colorAccent">#2962ff</item>
+        <item name="colorPrimary">#2962ff</item>
+        <item name="colorControlActivated">#2962ff</item>
+        <item name="android:colorEdgeEffect">#2962ff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme24">
+        <item name="colorAccent">#2962ff</item>
+        <item name="colorPrimary">#2962ff</item>
+        <item name="colorControlActivated">#2962ff</item>
+        <item name="android:colorEdgeEffect">#2962ff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme25">
+        <item name="colorAccent">#80d8ff</item>
+        <item name="colorPrimary">#80d8ff</item>
+        <item name="colorControlActivated">#80d8ff</item>
+        <item name="android:colorEdgeEffect">#80d8ff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme25">
+        <item name="colorAccent">#80d8ff</item>
+        <item name="colorPrimary">#80d8ff</item>
+        <item name="colorControlActivated">#80d8ff</item>
+        <item name="android:colorEdgeEffect">#80d8ff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme25">
+        <item name="colorAccent">#80d8ff</item>
+        <item name="colorPrimary">#80d8ff</item>
+        <item name="colorControlActivated">#80d8ff</item>
+        <item name="android:colorEdgeEffect">#80d8ff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme26">
+        <item name="colorAccent">#40c4ff</item>
+        <item name="colorPrimary">#40c4ff</item>
+        <item name="colorControlActivated">#40c4ff</item>
+        <item name="android:colorEdgeEffect">#40c4ff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme26">
+        <item name="colorAccent">#40c4ff</item>
+        <item name="colorPrimary">#40c4ff</item>
+        <item name="colorControlActivated">#40c4ff</item>
+        <item name="android:colorEdgeEffect">#40c4ff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme26">
+        <item name="colorAccent">#40c4ff</item>
+        <item name="colorPrimary">#40c4ff</item>
+        <item name="colorControlActivated">#40c4ff</item>
+        <item name="android:colorEdgeEffect">#40c4ff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme27">
+        <item name="colorAccent">#00b0ff</item>
+        <item name="colorPrimary">#00b0ff</item>
+        <item name="colorControlActivated">#00b0ff</item>
+        <item name="android:colorEdgeEffect">#00b0ff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme27">
+        <item name="colorAccent">#00b0ff</item>
+        <item name="colorPrimary">#00b0ff</item>
+        <item name="colorControlActivated">#00b0ff</item>
+        <item name="android:colorEdgeEffect">#00b0ff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme27">
+        <item name="colorAccent">#00b0ff</item>
+        <item name="colorPrimary">#00b0ff</item>
+        <item name="colorControlActivated">#00b0ff</item>
+        <item name="android:colorEdgeEffect">#00b0ff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme28">
+        <item name="colorAccent">#0091ea</item>
+        <item name="colorPrimary">#0091ea</item>
+        <item name="colorControlActivated">#0091ea</item>
+        <item name="android:colorEdgeEffect">#0091ea</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme28">
+        <item name="colorAccent">#0091ea</item>
+        <item name="colorPrimary">#0091ea</item>
+        <item name="colorControlActivated">#0091ea</item>
+        <item name="android:colorEdgeEffect">#0091ea</item>
+    </style>
+
+    <style name="Symphony.Black.Theme28">
+        <item name="colorAccent">#0091ea</item>
+        <item name="colorPrimary">#0091ea</item>
+        <item name="colorControlActivated">#0091ea</item>
+        <item name="android:colorEdgeEffect">#0091ea</item>
+    </style>
+
+    <style name="Symphony.Light.Theme29">
+        <item name="colorAccent">#84ffff</item>
+        <item name="colorPrimary">#84ffff</item>
+        <item name="colorControlActivated">#84ffff</item>
+        <item name="android:colorEdgeEffect">#84ffff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme29">
+        <item name="colorAccent">#84ffff</item>
+        <item name="colorPrimary">#84ffff</item>
+        <item name="colorControlActivated">#84ffff</item>
+        <item name="android:colorEdgeEffect">#84ffff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme29">
+        <item name="colorAccent">#84ffff</item>
+        <item name="colorPrimary">#84ffff</item>
+        <item name="colorControlActivated">#84ffff</item>
+        <item name="android:colorEdgeEffect">#84ffff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme30">
+        <item name="colorAccent">#18ffff</item>
+        <item name="colorPrimary">#18ffff</item>
+        <item name="colorControlActivated">#18ffff</item>
+        <item name="android:colorEdgeEffect">#18ffff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme30">
+        <item name="colorAccent">#18ffff</item>
+        <item name="colorPrimary">#18ffff</item>
+        <item name="colorControlActivated">#18ffff</item>
+        <item name="android:colorEdgeEffect">#18ffff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme30">
+        <item name="colorAccent">#18ffff</item>
+        <item name="colorPrimary">#18ffff</item>
+        <item name="colorControlActivated">#18ffff</item>
+        <item name="android:colorEdgeEffect">#18ffff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme31">
+        <item name="colorAccent">#00e5ff</item>
+        <item name="colorPrimary">#00e5ff</item>
+        <item name="colorControlActivated">#00e5ff</item>
+        <item name="android:colorEdgeEffect">#00e5ff</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme31">
+        <item name="colorAccent">#00e5ff</item>
+        <item name="colorPrimary">#00e5ff</item>
+        <item name="colorControlActivated">#00e5ff</item>
+        <item name="android:colorEdgeEffect">#00e5ff</item>
+    </style>
+
+    <style name="Symphony.Black.Theme31">
+        <item name="colorAccent">#00e5ff</item>
+        <item name="colorPrimary">#00e5ff</item>
+        <item name="colorControlActivated">#00e5ff</item>
+        <item name="android:colorEdgeEffect">#00e5ff</item>
+    </style>
+
+    <style name="Symphony.Light.Theme32">
+        <item name="colorAccent">#00b8d4</item>
+        <item name="colorPrimary">#00b8d4</item>
+        <item name="colorControlActivated">#00b8d4</item>
+        <item name="android:colorEdgeEffect">#00b8d4</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme32">
+        <item name="colorAccent">#00b8d4</item>
+        <item name="colorPrimary">#00b8d4</item>
+        <item name="colorControlActivated">#00b8d4</item>
+        <item name="android:colorEdgeEffect">#00b8d4</item>
+    </style>
+
+    <style name="Symphony.Black.Theme32">
+        <item name="colorAccent">#00b8d4</item>
+        <item name="colorPrimary">#00b8d4</item>
+        <item name="colorControlActivated">#00b8d4</item>
+        <item name="android:colorEdgeEffect">#00b8d4</item>
+    </style>
+
+    <style name="Symphony.Light.Theme33">
+        <item name="colorAccent">#a7ffeb</item>
+        <item name="colorPrimary">#a7ffeb</item>
+        <item name="colorControlActivated">#a7ffeb</item>
+        <item name="android:colorEdgeEffect">#a7ffeb</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme33">
+        <item name="colorAccent">#a7ffeb</item>
+        <item name="colorPrimary">#a7ffeb</item>
+        <item name="colorControlActivated">#a7ffeb</item>
+        <item name="android:colorEdgeEffect">#a7ffeb</item>
+    </style>
+
+    <style name="Symphony.Black.Theme33">
+        <item name="colorAccent">#a7ffeb</item>
+        <item name="colorPrimary">#a7ffeb</item>
+        <item name="colorControlActivated">#a7ffeb</item>
+        <item name="android:colorEdgeEffect">#a7ffeb</item>
+    </style>
+
+    <style name="Symphony.Light.Theme34">
+        <item name="colorAccent">#64ffda</item>
+        <item name="colorPrimary">#64ffda</item>
+        <item name="colorControlActivated">#64ffda</item>
+        <item name="android:colorEdgeEffect">#64ffda</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme34">
+        <item name="colorAccent">#64ffda</item>
+        <item name="colorPrimary">#64ffda</item>
+        <item name="colorControlActivated">#64ffda</item>
+        <item name="android:colorEdgeEffect">#64ffda</item>
+    </style>
+
+    <style name="Symphony.Black.Theme34">
+        <item name="colorAccent">#64ffda</item>
+        <item name="colorPrimary">#64ffda</item>
+        <item name="colorControlActivated">#64ffda</item>
+        <item name="android:colorEdgeEffect">#64ffda</item>
+    </style>
+
+    <style name="Symphony.Light.Theme35">
+        <item name="colorAccent">#1de9b6</item>
+        <item name="colorPrimary">#1de9b6</item>
+        <item name="colorControlActivated">#1de9b6</item>
+        <item name="android:colorEdgeEffect">#1de9b6</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme35">
+        <item name="colorAccent">#1de9b6</item>
+        <item name="colorPrimary">#1de9b6</item>
+        <item name="colorControlActivated">#1de9b6</item>
+        <item name="android:colorEdgeEffect">#1de9b6</item>
+    </style>
+
+    <style name="Symphony.Black.Theme35">
+        <item name="colorAccent">#1de9b6</item>
+        <item name="colorPrimary">#1de9b6</item>
+        <item name="colorControlActivated">#1de9b6</item>
+        <item name="android:colorEdgeEffect">#1de9b6</item>
+    </style>
+
+    <style name="Symphony.Light.Theme36">
+        <item name="colorAccent">#00bfa5</item>
+        <item name="colorPrimary">#00bfa5</item>
+        <item name="colorControlActivated">#00bfa5</item>
+        <item name="android:colorEdgeEffect">#00bfa5</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme36">
+        <item name="colorAccent">#00bfa5</item>
+        <item name="colorPrimary">#00bfa5</item>
+        <item name="colorControlActivated">#00bfa5</item>
+        <item name="android:colorEdgeEffect">#00bfa5</item>
+    </style>
+
+    <style name="Symphony.Black.Theme36">
+        <item name="colorAccent">#00bfa5</item>
+        <item name="colorPrimary">#00bfa5</item>
+        <item name="colorControlActivated">#00bfa5</item>
+        <item name="android:colorEdgeEffect">#00bfa5</item>
+    </style>
+
+    <style name="Symphony.Light.Theme37">
+        <item name="colorAccent">#b9f6ca</item>
+        <item name="colorPrimary">#b9f6ca</item>
+        <item name="colorControlActivated">#b9f6ca</item>
+        <item name="android:colorEdgeEffect">#b9f6ca</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme37">
+        <item name="colorAccent">#b9f6ca</item>
+        <item name="colorPrimary">#b9f6ca</item>
+        <item name="colorControlActivated">#b9f6ca</item>
+        <item name="android:colorEdgeEffect">#b9f6ca</item>
+    </style>
+
+    <style name="Symphony.Black.Theme37">
+        <item name="colorAccent">#b9f6ca</item>
+        <item name="colorPrimary">#b9f6ca</item>
+        <item name="colorControlActivated">#b9f6ca</item>
+        <item name="android:colorEdgeEffect">#b9f6ca</item>
+    </style>
+
+    <style name="Symphony.Light.Theme38">
+        <item name="colorAccent">#69f0ae</item>
+        <item name="colorPrimary">#69f0ae</item>
+        <item name="colorControlActivated">#69f0ae</item>
+        <item name="android:colorEdgeEffect">#69f0ae</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme38">
+        <item name="colorAccent">#69f0ae</item>
+        <item name="colorPrimary">#69f0ae</item>
+        <item name="colorControlActivated">#69f0ae</item>
+        <item name="android:colorEdgeEffect">#69f0ae</item>
+    </style>
+
+    <style name="Symphony.Black.Theme38">
+        <item name="colorAccent">#69f0ae</item>
+        <item name="colorPrimary">#69f0ae</item>
+        <item name="colorControlActivated">#69f0ae</item>
+        <item name="android:colorEdgeEffect">#69f0ae</item>
+    </style>
+
+    <style name="Symphony.Light.Theme39">
+        <item name="colorAccent">#00e676</item>
+        <item name="colorPrimary">#00e676</item>
+        <item name="colorControlActivated">#00e676</item>
+        <item name="android:colorEdgeEffect">#00e676</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme39">
+        <item name="colorAccent">#00e676</item>
+        <item name="colorPrimary">#00e676</item>
+        <item name="colorControlActivated">#00e676</item>
+        <item name="android:colorEdgeEffect">#00e676</item>
+    </style>
+
+    <style name="Symphony.Black.Theme39">
+        <item name="colorAccent">#00e676</item>
+        <item name="colorPrimary">#00e676</item>
+        <item name="colorControlActivated">#00e676</item>
+        <item name="android:colorEdgeEffect">#00e676</item>
+    </style>
+
+    <style name="Symphony.Light.Theme40">
+        <item name="colorAccent">#00c853</item>
+        <item name="colorPrimary">#00c853</item>
+        <item name="colorControlActivated">#00c853</item>
+        <item name="android:colorEdgeEffect">#00c853</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme40">
+        <item name="colorAccent">#00c853</item>
+        <item name="colorPrimary">#00c853</item>
+        <item name="colorControlActivated">#00c853</item>
+        <item name="android:colorEdgeEffect">#00c853</item>
+    </style>
+
+    <style name="Symphony.Black.Theme40">
+        <item name="colorAccent">#00c853</item>
+        <item name="colorPrimary">#00c853</item>
+        <item name="colorControlActivated">#00c853</item>
+        <item name="android:colorEdgeEffect">#00c853</item>
+    </style>
+
+    <style name="Symphony.Light.Theme41">
+        <item name="colorAccent">#ccff90</item>
+        <item name="colorPrimary">#ccff90</item>
+        <item name="colorControlActivated">#ccff90</item>
+        <item name="android:colorEdgeEffect">#ccff90</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme41">
+        <item name="colorAccent">#ccff90</item>
+        <item name="colorPrimary">#ccff90</item>
+        <item name="colorControlActivated">#ccff90</item>
+        <item name="android:colorEdgeEffect">#ccff90</item>
+    </style>
+
+    <style name="Symphony.Black.Theme41">
+        <item name="colorAccent">#ccff90</item>
+        <item name="colorPrimary">#ccff90</item>
+        <item name="colorControlActivated">#ccff90</item>
+        <item name="android:colorEdgeEffect">#ccff90</item>
+    </style>
+
+    <style name="Symphony.Light.Theme42">
+        <item name="colorAccent">#b2ff59</item>
+        <item name="colorPrimary">#b2ff59</item>
+        <item name="colorControlActivated">#b2ff59</item>
+        <item name="android:colorEdgeEffect">#b2ff59</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme42">
+        <item name="colorAccent">#b2ff59</item>
+        <item name="colorPrimary">#b2ff59</item>
+        <item name="colorControlActivated">#b2ff59</item>
+        <item name="android:colorEdgeEffect">#b2ff59</item>
+    </style>
+
+    <style name="Symphony.Black.Theme42">
+        <item name="colorAccent">#b2ff59</item>
+        <item name="colorPrimary">#b2ff59</item>
+        <item name="colorControlActivated">#b2ff59</item>
+        <item name="android:colorEdgeEffect">#b2ff59</item>
+    </style>
+
+    <style name="Symphony.Light.Theme43">
+        <item name="colorAccent">#76ff03</item>
+        <item name="colorPrimary">#76ff03</item>
+        <item name="colorControlActivated">#76ff03</item>
+        <item name="android:colorEdgeEffect">#76ff03</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme43">
+        <item name="colorAccent">#76ff03</item>
+        <item name="colorPrimary">#76ff03</item>
+        <item name="colorControlActivated">#76ff03</item>
+        <item name="android:colorEdgeEffect">#76ff03</item>
+    </style>
+
+    <style name="Symphony.Black.Theme43">
+        <item name="colorAccent">#76ff03</item>
+        <item name="colorPrimary">#76ff03</item>
+        <item name="colorControlActivated">#76ff03</item>
+        <item name="android:colorEdgeEffect">#76ff03</item>
+    </style>
+
+    <style name="Symphony.Light.Theme44">
+        <item name="colorAccent">#64dd17</item>
+        <item name="colorPrimary">#64dd17</item>
+        <item name="colorControlActivated">#64dd17</item>
+        <item name="android:colorEdgeEffect">#64dd17</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme44">
+        <item name="colorAccent">#64dd17</item>
+        <item name="colorPrimary">#64dd17</item>
+        <item name="colorControlActivated">#64dd17</item>
+        <item name="android:colorEdgeEffect">#64dd17</item>
+    </style>
+
+    <style name="Symphony.Black.Theme44">
+        <item name="colorAccent">#64dd17</item>
+        <item name="colorPrimary">#64dd17</item>
+        <item name="colorControlActivated">#64dd17</item>
+        <item name="android:colorEdgeEffect">#64dd17</item>
+    </style>
+
+    <style name="Symphony.Light.Theme45">
+        <item name="colorAccent">#f4ff81</item>
+        <item name="colorPrimary">#f4ff81</item>
+        <item name="colorControlActivated">#f4ff81</item>
+        <item name="android:colorEdgeEffect">#f4ff81</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme45">
+        <item name="colorAccent">#f4ff81</item>
+        <item name="colorPrimary">#f4ff81</item>
+        <item name="colorControlActivated">#f4ff81</item>
+        <item name="android:colorEdgeEffect">#f4ff81</item>
+    </style>
+
+    <style name="Symphony.Black.Theme45">
+        <item name="colorAccent">#f4ff81</item>
+        <item name="colorPrimary">#f4ff81</item>
+        <item name="colorControlActivated">#f4ff81</item>
+        <item name="android:colorEdgeEffect">#f4ff81</item>
+    </style>
+
+    <style name="Symphony.Light.Theme46">
+        <item name="colorAccent">#eeff41</item>
+        <item name="colorPrimary">#eeff41</item>
+        <item name="colorControlActivated">#eeff41</item>
+        <item name="android:colorEdgeEffect">#eeff41</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme46">
+        <item name="colorAccent">#eeff41</item>
+        <item name="colorPrimary">#eeff41</item>
+        <item name="colorControlActivated">#eeff41</item>
+        <item name="android:colorEdgeEffect">#eeff41</item>
+    </style>
+
+    <style name="Symphony.Black.Theme46">
+        <item name="colorAccent">#eeff41</item>
+        <item name="colorPrimary">#eeff41</item>
+        <item name="colorControlActivated">#eeff41</item>
+        <item name="android:colorEdgeEffect">#eeff41</item>
+    </style>
+
+    <style name="Symphony.Light.Theme47">
+        <item name="colorAccent">#c6ff00</item>
+        <item name="colorPrimary">#c6ff00</item>
+        <item name="colorControlActivated">#c6ff00</item>
+        <item name="android:colorEdgeEffect">#c6ff00</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme47">
+        <item name="colorAccent">#c6ff00</item>
+        <item name="colorPrimary">#c6ff00</item>
+        <item name="colorControlActivated">#c6ff00</item>
+        <item name="android:colorEdgeEffect">#c6ff00</item>
+    </style>
+
+    <style name="Symphony.Black.Theme47">
+        <item name="colorAccent">#c6ff00</item>
+        <item name="colorPrimary">#c6ff00</item>
+        <item name="colorControlActivated">#c6ff00</item>
+        <item name="android:colorEdgeEffect">#c6ff00</item>
+    </style>
+
+    <style name="Symphony.Light.Theme48">
+        <item name="colorAccent">#aeea00</item>
+        <item name="colorPrimary">#aeea00</item>
+        <item name="colorControlActivated">#aeea00</item>
+        <item name="android:colorEdgeEffect">#aeea00</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme48">
+        <item name="colorAccent">#aeea00</item>
+        <item name="colorPrimary">#aeea00</item>
+        <item name="colorControlActivated">#aeea00</item>
+        <item name="android:colorEdgeEffect">#aeea00</item>
+    </style>
+
+    <style name="Symphony.Black.Theme48">
+        <item name="colorAccent">#aeea00</item>
+        <item name="colorPrimary">#aeea00</item>
+        <item name="colorControlActivated">#aeea00</item>
+        <item name="android:colorEdgeEffect">#aeea00</item>
+    </style>
+
+    <style name="Symphony.Light.Theme49">
+        <item name="colorAccent">#ffff8d</item>
+        <item name="colorPrimary">#ffff8d</item>
+        <item name="colorControlActivated">#ffff8d</item>
+        <item name="android:colorEdgeEffect">#ffff8d</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme49">
+        <item name="colorAccent">#ffff8d</item>
+        <item name="colorPrimary">#ffff8d</item>
+        <item name="colorControlActivated">#ffff8d</item>
+        <item name="android:colorEdgeEffect">#ffff8d</item>
+    </style>
+
+    <style name="Symphony.Black.Theme49">
+        <item name="colorAccent">#ffff8d</item>
+        <item name="colorPrimary">#ffff8d</item>
+        <item name="colorControlActivated">#ffff8d</item>
+        <item name="android:colorEdgeEffect">#ffff8d</item>
+    </style>
+
+    <style name="Symphony.Light.Theme50">
+        <item name="colorAccent">#ffff00</item>
+        <item name="colorPrimary">#ffff00</item>
+        <item name="colorControlActivated">#ffff00</item>
+        <item name="android:colorEdgeEffect">#ffff00</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme50">
+        <item name="colorAccent">#ffff00</item>
+        <item name="colorPrimary">#ffff00</item>
+        <item name="colorControlActivated">#ffff00</item>
+        <item name="android:colorEdgeEffect">#ffff00</item>
+    </style>
+
+    <style name="Symphony.Black.Theme50">
+        <item name="colorAccent">#ffff00</item>
+        <item name="colorPrimary">#ffff00</item>
+        <item name="colorControlActivated">#ffff00</item>
+        <item name="android:colorEdgeEffect">#ffff00</item>
+    </style>
+
+    <style name="Symphony.Light.Theme51">
+        <item name="colorAccent">#ffea00</item>
+        <item name="colorPrimary">#ffea00</item>
+        <item name="colorControlActivated">#ffea00</item>
+        <item name="android:colorEdgeEffect">#ffea00</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme51">
+        <item name="colorAccent">#ffea00</item>
+        <item name="colorPrimary">#ffea00</item>
+        <item name="colorControlActivated">#ffea00</item>
+        <item name="android:colorEdgeEffect">#ffea00</item>
+    </style>
+
+    <style name="Symphony.Black.Theme51">
+        <item name="colorAccent">#ffea00</item>
+        <item name="colorPrimary">#ffea00</item>
+        <item name="colorControlActivated">#ffea00</item>
+        <item name="android:colorEdgeEffect">#ffea00</item>
+    </style>
+
+    <style name="Symphony.Light.Theme52">
+        <item name="colorAccent">#ffd600</item>
+        <item name="colorPrimary">#ffd600</item>
+        <item name="colorControlActivated">#ffd600</item>
+        <item name="android:colorEdgeEffect">#ffd600</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme52">
+        <item name="colorAccent">#ffd600</item>
+        <item name="colorPrimary">#ffd600</item>
+        <item name="colorControlActivated">#ffd600</item>
+        <item name="android:colorEdgeEffect">#ffd600</item>
+    </style>
+
+    <style name="Symphony.Black.Theme52">
+        <item name="colorAccent">#ffd600</item>
+        <item name="colorPrimary">#ffd600</item>
+        <item name="colorControlActivated">#ffd600</item>
+        <item name="android:colorEdgeEffect">#ffd600</item>
+    </style>
+
+    <style name="Symphony.Light.Theme53">
+        <item name="colorAccent">#ffe57f</item>
+        <item name="colorPrimary">#ffe57f</item>
+        <item name="colorControlActivated">#ffe57f</item>
+        <item name="android:colorEdgeEffect">#ffe57f</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme53">
+        <item name="colorAccent">#ffe57f</item>
+        <item name="colorPrimary">#ffe57f</item>
+        <item name="colorControlActivated">#ffe57f</item>
+        <item name="android:colorEdgeEffect">#ffe57f</item>
+    </style>
+
+    <style name="Symphony.Black.Theme53">
+        <item name="colorAccent">#ffe57f</item>
+        <item name="colorPrimary">#ffe57f</item>
+        <item name="colorControlActivated">#ffe57f</item>
+        <item name="android:colorEdgeEffect">#ffe57f</item>
+    </style>
+
+    <style name="Symphony.Light.Theme54">
+        <item name="colorAccent">#ffd740</item>
+        <item name="colorPrimary">#ffd740</item>
+        <item name="colorControlActivated">#ffd740</item>
+        <item name="android:colorEdgeEffect">#ffd740</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme54">
+        <item name="colorAccent">#ffd740</item>
+        <item name="colorPrimary">#ffd740</item>
+        <item name="colorControlActivated">#ffd740</item>
+        <item name="android:colorEdgeEffect">#ffd740</item>
+    </style>
+
+    <style name="Symphony.Black.Theme54">
+        <item name="colorAccent">#ffd740</item>
+        <item name="colorPrimary">#ffd740</item>
+        <item name="colorControlActivated">#ffd740</item>
+        <item name="android:colorEdgeEffect">#ffd740</item>
+    </style>
+
+    <style name="Symphony.Light.Theme55">
+        <item name="colorAccent">#ffc400</item>
+        <item name="colorPrimary">#ffc400</item>
+        <item name="colorControlActivated">#ffc400</item>
+        <item name="android:colorEdgeEffect">#ffc400</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme55">
+        <item name="colorAccent">#ffc400</item>
+        <item name="colorPrimary">#ffc400</item>
+        <item name="colorControlActivated">#ffc400</item>
+        <item name="android:colorEdgeEffect">#ffc400</item>
+    </style>
+
+    <style name="Symphony.Black.Theme55">
+        <item name="colorAccent">#ffc400</item>
+        <item name="colorPrimary">#ffc400</item>
+        <item name="colorControlActivated">#ffc400</item>
+        <item name="android:colorEdgeEffect">#ffc400</item>
+    </style>
+
+    <style name="Symphony.Light.Theme56">
+        <item name="colorAccent">#ffab00</item>
+        <item name="colorPrimary">#ffab00</item>
+        <item name="colorControlActivated">#ffab00</item>
+        <item name="android:colorEdgeEffect">#ffab00</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme56">
+        <item name="colorAccent">#ffab00</item>
+        <item name="colorPrimary">#ffab00</item>
+        <item name="colorControlActivated">#ffab00</item>
+        <item name="android:colorEdgeEffect">#ffab00</item>
+    </style>
+
+    <style name="Symphony.Black.Theme56">
+        <item name="colorAccent">#ffab00</item>
+        <item name="colorPrimary">#ffab00</item>
+        <item name="colorControlActivated">#ffab00</item>
+        <item name="android:colorEdgeEffect">#ffab00</item>
+    </style>
+
+    <style name="Symphony.Light.Theme57">
+        <item name="colorAccent">#ffd180</item>
+        <item name="colorPrimary">#ffd180</item>
+        <item name="colorControlActivated">#ffd180</item>
+        <item name="android:colorEdgeEffect">#ffd180</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme57">
+        <item name="colorAccent">#ffd180</item>
+        <item name="colorPrimary">#ffd180</item>
+        <item name="colorControlActivated">#ffd180</item>
+        <item name="android:colorEdgeEffect">#ffd180</item>
+    </style>
+
+    <style name="Symphony.Black.Theme57">
+        <item name="colorAccent">#ffd180</item>
+        <item name="colorPrimary">#ffd180</item>
+        <item name="colorControlActivated">#ffd180</item>
+        <item name="android:colorEdgeEffect">#ffd180</item>
+    </style>
+
+    <style name="Symphony.Light.Theme58">
+        <item name="colorAccent">#ffab40</item>
+        <item name="colorPrimary">#ffab40</item>
+        <item name="colorControlActivated">#ffab40</item>
+        <item name="android:colorEdgeEffect">#ffab40</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme58">
+        <item name="colorAccent">#ffab40</item>
+        <item name="colorPrimary">#ffab40</item>
+        <item name="colorControlActivated">#ffab40</item>
+        <item name="android:colorEdgeEffect">#ffab40</item>
+    </style>
+
+    <style name="Symphony.Black.Theme58">
+        <item name="colorAccent">#ffab40</item>
+        <item name="colorPrimary">#ffab40</item>
+        <item name="colorControlActivated">#ffab40</item>
+        <item name="android:colorEdgeEffect">#ffab40</item>
+    </style>
+
+    <style name="Symphony.Light.Theme59">
+        <item name="colorAccent">#ff9100</item>
+        <item name="colorPrimary">#ff9100</item>
+        <item name="colorControlActivated">#ff9100</item>
+        <item name="android:colorEdgeEffect">#ff9100</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme59">
+        <item name="colorAccent">#ff9100</item>
+        <item name="colorPrimary">#ff9100</item>
+        <item name="colorControlActivated">#ff9100</item>
+        <item name="android:colorEdgeEffect">#ff9100</item>
+    </style>
+
+    <style name="Symphony.Black.Theme59">
+        <item name="colorAccent">#ff9100</item>
+        <item name="colorPrimary">#ff9100</item>
+        <item name="colorControlActivated">#ff9100</item>
+        <item name="android:colorEdgeEffect">#ff9100</item>
+    </style>
+
+    <style name="Symphony.Light.Theme60">
+        <item name="colorAccent">#ff6d00</item>
+        <item name="colorPrimary">#ff6d00</item>
+        <item name="colorControlActivated">#ff6d00</item>
+        <item name="android:colorEdgeEffect">#ff6d00</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme60">
+        <item name="colorAccent">#ff6d00</item>
+        <item name="colorPrimary">#ff6d00</item>
+        <item name="colorControlActivated">#ff6d00</item>
+        <item name="android:colorEdgeEffect">#ff6d00</item>
+    </style>
+
+    <style name="Symphony.Black.Theme60">
+        <item name="colorAccent">#ff6d00</item>
+        <item name="colorPrimary">#ff6d00</item>
+        <item name="colorControlActivated">#ff6d00</item>
+        <item name="android:colorEdgeEffect">#ff6d00</item>
+    </style>
+
+    <style name="Symphony.Light.Theme61">
+        <item name="colorAccent">#ff9e80</item>
+        <item name="colorPrimary">#ff9e80</item>
+        <item name="colorControlActivated">#ff9e80</item>
+        <item name="android:colorEdgeEffect">#ff9e80</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme61">
+        <item name="colorAccent">#ff9e80</item>
+        <item name="colorPrimary">#ff9e80</item>
+        <item name="colorControlActivated">#ff9e80</item>
+        <item name="android:colorEdgeEffect">#ff9e80</item>
+    </style>
+
+    <style name="Symphony.Black.Theme61">
+        <item name="colorAccent">#ff9e80</item>
+        <item name="colorPrimary">#ff9e80</item>
+        <item name="colorControlActivated">#ff9e80</item>
+        <item name="android:colorEdgeEffect">#ff9e80</item>
+    </style>
+
+    <style name="Symphony.Light.Theme62">
+        <item name="colorAccent">#ff6e40</item>
+        <item name="colorPrimary">#ff6e40</item>
+        <item name="colorControlActivated">#ff6e40</item>
+        <item name="android:colorEdgeEffect">#ff6e40</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme62">
+        <item name="colorAccent">#ff6e40</item>
+        <item name="colorPrimary">#ff6e40</item>
+        <item name="colorControlActivated">#ff6e40</item>
+        <item name="android:colorEdgeEffect">#ff6e40</item>
+    </style>
+
+    <style name="Symphony.Black.Theme62">
+        <item name="colorAccent">#ff6e40</item>
+        <item name="colorPrimary">#ff6e40</item>
+        <item name="colorControlActivated">#ff6e40</item>
+        <item name="android:colorEdgeEffect">#ff6e40</item>
+    </style>
+
+    <style name="Symphony.Light.Theme63">
+        <item name="colorAccent">#ff3d00</item>
+        <item name="colorPrimary">#ff3d00</item>
+        <item name="colorControlActivated">#ff3d00</item>
+        <item name="android:colorEdgeEffect">#ff3d00</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme63">
+        <item name="colorAccent">#ff3d00</item>
+        <item name="colorPrimary">#ff3d00</item>
+        <item name="colorControlActivated">#ff3d00</item>
+        <item name="android:colorEdgeEffect">#ff3d00</item>
+    </style>
+
+    <style name="Symphony.Black.Theme63">
+        <item name="colorAccent">#ff3d00</item>
+        <item name="colorPrimary">#ff3d00</item>
+        <item name="colorControlActivated">#ff3d00</item>
+        <item name="android:colorEdgeEffect">#ff3d00</item>
+    </style>
+
+    <style name="Symphony.Light.Theme64">
+        <item name="colorAccent">#dd2c00</item>
+        <item name="colorPrimary">#dd2c00</item>
+        <item name="colorControlActivated">#dd2c00</item>
+        <item name="android:colorEdgeEffect">#dd2c00</item>
+    </style>
+
+    <style name="Symphony.Dark.Theme64">
+        <item name="colorAccent">#dd2c00</item>
+        <item name="colorPrimary">#dd2c00</item>
+        <item name="colorControlActivated">#dd2c00</item>
+        <item name="android:colorEdgeEffect">#dd2c00</item>
+    </style>
+
+    <style name="Symphony.Black.Theme64">
+        <item name="colorAccent">#dd2c00</item>
+        <item name="colorPrimary">#dd2c00</item>
+        <item name="colorControlActivated">#dd2c00</item>
+        <item name="android:colorEdgeEffect">#dd2c00</item>
+    </style>
+
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="ActionButtonWhite" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="ActionButtonBlack" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/black</item>
+    </style>
+</resources>
