@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.R
@@ -102,6 +100,9 @@ class NowPlayingQueueFragment : BaseFragment() {
 
     override fun onSongChanged(position: Int, song: Song?) {
         changeUpNextText(position)
+        if (slidingUpPanelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            nowPlayingQueueAdapter?.setPositionInPlayingOrder(position)
+        }
     }
 
     companion object {
