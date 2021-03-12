@@ -15,6 +15,9 @@ import androidx.core.content.ContextCompat
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.Player.*
 import com.google.android.exoplayer2.audio.AudioAttributes
+import com.google.android.exoplayer2.audio.AudioCapabilities
+import com.google.android.exoplayer2.audio.AudioSink
+import com.google.android.exoplayer2.audio.DefaultAudioSink
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
@@ -36,7 +39,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.*
 
 
 class SymphonyExoPlayer(val context: Context, val service: Service) : Player.EventListener {
@@ -113,7 +115,7 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : Player.Eve
         }
     }
 
-    private var player: SimpleExoPlayer = SimpleExoPlayer.Builder(context).build()
+    private lateinit var player: SimpleExoPlayer
 
     private var mediaSource: ConcatenatingMediaSource? = null
     private var shuffleOrder: SymphonyShuffleOrder? = null
@@ -379,6 +381,31 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : Player.Eve
     }
 
     private fun init() {
+        val renderersFactory = object : DefaultRenderersFactory(context) {
+            override fun buildAudioSink(
+                context: Context,
+                enableFloatOutput: Boolean,
+                enableAudioTrackPlaybackParams: Boolean,
+                enableOffload: Boolean
+            ): AudioSink? {
+                return DefaultAudioSink(
+                    AudioCapabilities.DEFAULT_AUDIO_CAPABILITIES,
+                    DefaultAudioSink.DefaultAudioProcessorChain(
+                        SymphonyAudioProcessor(
+                            SymphonyAudioBufferSink()
+                        ),
+                        SymphonyAudioProcessor(
+                            SymphonyAudioBufferSink()
+                        )
+                    ).audioProcessors
+                )
+            }
+        }
+        player = SimpleExoPlayer.Builder(
+            context,
+            renderersFactory
+        ).build()
+
         player.setAudioAttributes(
             AudioAttributes.Builder()
                 .setUsage(C.USAGE_MEDIA)

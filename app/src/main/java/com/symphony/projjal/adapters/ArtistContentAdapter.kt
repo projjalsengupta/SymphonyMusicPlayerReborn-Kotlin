@@ -94,9 +94,9 @@ class ArtistContentAdapter(
                 return ArtistAlbumsItemViewHolder(binding, clickListener = {
                     addFragment(
                         activity = activity,
-                        R.id.fragmentContainer,
-                        AlbumContentFragment.newInstance(it),
-                        "album ${it.id}"
+                        id = R.id.fragmentContainer,
+                        newFragment = AlbumContentFragment.newInstance(it),
+                        fragmentName = "album ${it.id}"
                     )
                 })
             }

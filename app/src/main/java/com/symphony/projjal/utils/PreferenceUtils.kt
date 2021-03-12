@@ -72,7 +72,7 @@ object PreferenceUtils {
     var albumGridSize: Int
         get() {
             if (_albumGridSize == -1) {
-                _albumGridSize = Paper.book().read("albumGridSize", 1)
+                _albumGridSize = Paper.book().read("albumGridSize", 2)
             }
             return _albumGridSize
         }
@@ -85,7 +85,7 @@ object PreferenceUtils {
     var albumLayoutStyle: Int
         get() {
             if (_albumLayoutStyle == -1) {
-                _albumLayoutStyle = Paper.book().read("albumLayoutStyle", 1)
+                _albumLayoutStyle = Paper.book().read("albumLayoutStyle", 3)
             }
             return _albumLayoutStyle
         }
@@ -137,7 +137,7 @@ object PreferenceUtils {
     var artistGridSize: Int
         get() {
             if (_artistGridSize == -1) {
-                _artistGridSize = Paper.book().read("artistGridSize", 1)
+                _artistGridSize = Paper.book().read("artistGridSize", 3)
             }
             return _artistGridSize
         }
@@ -150,7 +150,7 @@ object PreferenceUtils {
     var artistLayoutStyle: Int
         get() {
             if (_artistLayoutStyle == -1) {
-                _artistLayoutStyle = Paper.book().read("artistLayoutStyle", 1)
+                _artistLayoutStyle = Paper.book().read("artistLayoutStyle", 4)
             }
             return _artistLayoutStyle
         }

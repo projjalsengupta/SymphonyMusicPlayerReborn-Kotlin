@@ -8,7 +8,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.SymphonyApplication.Companion.applicationInstance
 import com.symphony.projjal.databinding.ActivityMainBinding
-import com.symphony.projjal.fragments.*
+import com.symphony.projjal.fragments.LibraryFragment
+import com.symphony.projjal.fragments.NowPlayingFragment
+import com.symphony.projjal.fragments.NowPlayingSmallControllerFragment
 import com.symphony.projjal.singletons.Cab.cab
 import com.symphony.projjal.utils.ConversionUtils.dpToPx
 import com.symphony.projjal.utils.ViewUtils.getNavigationBarHeight
@@ -20,7 +22,7 @@ class MainActivity : BaseActivity() {
     private var libraryFragment = LibraryFragment.newInstance()
     private var nowPlayingFragment = NowPlayingFragment.newInstance()
 
-    val slidingPanelState get() = binding.slidingUpPanel.panelState
+    val slidingPanelState: SlidingUpPanelLayout.PanelState get() = binding.slidingUpPanel.panelState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +68,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun updateSlidingPanelHeight(songCount: Int) {
-        if ((songCount > 0 && binding.slidingUpPanel.panelHeight > 0) || (songCount == 0 && binding.slidingUpPanel.panelHeight == 0)) {
-            return
-        }
         binding.slidingUpPanel.panelHeight = getNavigationBarHeight(
             context = this@MainActivity,
             orientation = resources.configuration.orientation
@@ -83,7 +82,11 @@ class MainActivity : BaseActivity() {
         binding.slidingUpPanel.addPanelSlideListener(object :
             SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
-                setAlpha(binding.smallControlsContainer, slideOffset)
+                if (musicService?.totalSongCount?.equals(0) == true) {
+                    setAlpha(binding.smallControlsContainer, 1 - slideOffset)
+                } else {
+                    setAlpha(binding.smallControlsContainer, slideOffset)
+                }
                 setAlpha(binding.nowPlayingContainer, 1 - slideOffset)
             }
 

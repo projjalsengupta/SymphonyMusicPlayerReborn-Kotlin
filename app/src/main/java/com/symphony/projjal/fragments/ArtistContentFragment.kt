@@ -24,6 +24,7 @@ import com.symphony.projjal.adapters.ArtistContentAdapter
 import com.symphony.projjal.databinding.FragmentArtistContentBinding
 import com.symphony.projjal.glide.palette.PaletteBitmap
 import com.symphony.projjal.utils.ViewUtils.fitsSystemWindows
+import com.symphony.projjal.utils.ViewUtils.topFitsSystemWindows
 
 class ArtistContentFragment : BaseFragment(), View.OnClickListener {
     private var _binding: FragmentArtistContentBinding? = null
@@ -40,11 +41,15 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentArtistContentBinding.inflate(inflater, container, false)
-        setUpPadding()
         setUpToolbar()
         setUpOnClickListeners()
         load()
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setUpPadding()
     }
 
     private fun setUpOnClickListeners() {
@@ -70,7 +75,7 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun setUpPadding() {
-        fitsSystemWindows(
+        topFitsSystemWindows(
             view = binding.backgroundView,
             context = activity,
             orientation = resources.configuration.orientation
@@ -87,7 +92,7 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
                     clickListener = { songs: MutableList<Song>, position: Int ->
                         musicService?.playList(songs, position)
                     },
-                    textColor
+                    textColor = textColor
                 )
                 binding.recyclerView.adapter = artistContentAdapter
             }

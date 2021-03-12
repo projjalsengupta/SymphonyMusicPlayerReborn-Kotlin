@@ -1,18 +1,25 @@
 package com.symphony.projjal.fragments
 
 import android.os.Bundle
-import android.view.*
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import com.afollestad.materialcab.attached.destroy
 import com.afollestad.materialcab.attached.isActive
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.symphony.projjal.*
+import com.symphony.projjal.GlideApp
+import com.symphony.projjal.R
 import com.symphony.projjal.SymphonyGlideExtension.small
 import com.symphony.projjal.adapters.LibraryPagerAdapter
 import com.symphony.projjal.databinding.FragmentLibraryBinding
 import com.symphony.projjal.singletons.Cab
 import com.symphony.projjal.utils.ViewUtils
 import com.symphony.themeengine.ThemeEngine
+import kotlin.math.abs
+
 
 class LibraryFragment : BaseFragment() {
     private var _binding: FragmentLibraryBinding? = null
@@ -97,6 +104,10 @@ class LibraryFragment : BaseFragment() {
             binding.title.text = getString(R.string.app_name)
             binding.title.setTextColor(ThemeEngine(activity).textColorPrimary)
             binding.search.setColorFilter(ThemeEngine(activity).textColorPrimary)
+            binding.toolbarContainer.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                binding.toolbar.alpha = 1 -
+                        (abs(verticalOffset).toFloat() / binding.toolbar.height.toFloat())
+            })
         }
     }
 

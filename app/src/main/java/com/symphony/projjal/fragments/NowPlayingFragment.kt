@@ -84,6 +84,7 @@ class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekB
     override fun onResume() {
         super.onResume()
         binding.nowPlayingViewPager.registerOnPageChangeCallback(pageChangeCallback)
+        setUpPadding()
     }
 
     override fun onPause() {
@@ -97,7 +98,6 @@ class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekB
     ): View {
         _binding = FragmentNowPlayingBinding.inflate(inflater, container, false)
         getInitialColors()
-        setUpPadding()
         setOnClickListenersAndSeekBarChangeListener()
         setMainActivityAntiDragView()
         setUpSlidingPanel()

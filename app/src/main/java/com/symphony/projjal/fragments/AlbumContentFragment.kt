@@ -25,7 +25,7 @@ import com.symphony.projjal.SymphonyGlideExtension.large
 import com.symphony.projjal.adapters.AlbumContentAdapter
 import com.symphony.projjal.databinding.FragmentAlbumContentBinding
 import com.symphony.projjal.glide.palette.PaletteBitmap
-import com.symphony.projjal.utils.ViewUtils.fitsSystemWindows
+import com.symphony.projjal.utils.ViewUtils.topFitsSystemWindows
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,11 +45,15 @@ class AlbumContentFragment : BaseFragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAlbumContentBinding.inflate(inflater, container, false)
-        setUpPadding()
         setUpToolbar()
         setUpOnClickListeners()
         load()
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setUpPadding()
     }
 
     private fun setUpOnClickListeners() {
@@ -75,7 +79,7 @@ class AlbumContentFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun setUpPadding() {
-        fitsSystemWindows(
+        topFitsSystemWindows(
             view = binding.backgroundView,
             context = activity,
             orientation = resources.configuration.orientation
@@ -93,7 +97,7 @@ class AlbumContentFragment : BaseFragment(), View.OnClickListener {
                     clickListener = { songs: MutableList<Song>, position: Int ->
                         musicService?.playList(songs, position)
                     },
-                    textColor
+                    textColor = textColor
                 )
                 binding.recyclerView.adapter = adapter
             }

@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:gravity="bottom"
         sothree:umanoPanelHeight="0dp"
-        sothree:umanoParallaxOffset="64dp"
         sothree:umanoShadowHeight="4dp">
 
         <FrameLayout
