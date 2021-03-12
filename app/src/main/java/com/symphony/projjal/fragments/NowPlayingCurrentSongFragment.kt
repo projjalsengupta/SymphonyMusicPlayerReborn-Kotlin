@@ -8,7 +8,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
-import com.symphony.projjal.SymphonyGlideExtension.small
 import com.symphony.projjal.SymphonyGlideExtension.songPlaceholder
 import com.symphony.projjal.databinding.FragmentNowPlayingCurrentSongBinding
 
@@ -69,9 +68,9 @@ class NowPlayingCurrentSongFragment : BaseFragment(), View.OnClickListener {
         changeText(song)
         GlideApp.with(binding.image.context)
             .load(song)
-            .small()
+            .override(binding.image.width, binding.image.height)
             .songPlaceholder(context)
-            .into(binding.image.image)
+            .into(binding.image)
     }
 
     private fun changeText(song: Song?) {

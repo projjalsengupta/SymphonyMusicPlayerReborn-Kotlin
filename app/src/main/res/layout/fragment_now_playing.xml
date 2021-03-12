@@ -33,12 +33,12 @@
                 <com.symphony.projjal.customviews.SquareFrameLayout
                     android:id="@+id/viewPagerContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/nowPlayingViewPager"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent" />
                 </com.symphony.projjal.customviews.SquareFrameLayout>
 
                 <LinearLayout
@@ -142,6 +142,11 @@
                         android:src="@drawable/ic_repeat"
                         tools:ignore="ContentDescription" />
                 </LinearLayout>
+
+                <com.symphony.projjal.exoplayer.ExoVisualizer
+                    android:id="@+id/visualizerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
             </LinearLayout>
         </FrameLayout>
 

@@ -45,13 +45,12 @@ class HorizontalAlbumsAdapter(
         )
         return LibraryItemViewHolder(
             root = binding.root,
-            selectionBackground = binding.selectionBackground,
+            containerView = binding.containerView,
             text1 = binding.text1,
             text2 = binding.text2,
             image = binding.image,
-            cardView = binding.cardView,
             clickView = binding.clickView,
-            type = TYPE_HORIZONTAL_ALBUM,
+            type = LibraryItemViewHolder.Constants.TYPE_ALBUM,
             menu = binding.menu
         )
     }

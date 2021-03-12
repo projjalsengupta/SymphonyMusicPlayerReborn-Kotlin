@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
-import com.symphony.projjal.SymphonyGlideExtension.small
 import com.symphony.projjal.SymphonyGlideExtension.songPlaceholder
 import com.symphony.projjal.databinding.FragmentNowPlayingSmallControllerBinding
 
@@ -44,9 +43,9 @@ class NowPlayingSmallControllerFragment : BaseFragment(), View.OnClickListener {
         binding.text2.text = song.artist
         GlideApp.with(binding.image.context)
             .load(song)
-            .small()
+            .override(binding.image.width, binding.image.height)
             .songPlaceholder(context)
-            .into(binding.image.image)
+            .into(binding.image)
     }
 
     private fun setPlayPause(isPlaying: Boolean) {

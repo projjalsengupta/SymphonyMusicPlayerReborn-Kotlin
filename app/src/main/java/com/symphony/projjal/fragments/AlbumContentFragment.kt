@@ -21,7 +21,6 @@ import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
 import com.symphony.projjal.SymphonyGlideExtension.albumPlaceholder
-import com.symphony.projjal.SymphonyGlideExtension.large
 import com.symphony.projjal.adapters.AlbumContentAdapter
 import com.symphony.projjal.databinding.FragmentAlbumContentBinding
 import com.symphony.projjal.glide.palette.PaletteBitmap
@@ -130,9 +129,9 @@ class AlbumContentFragment : BaseFragment(), View.OnClickListener {
                 GlideApp.with(binding.image.context)
                     .`as`(PaletteBitmap::class.java)
                     .load(album?.albumArtUri)
-                    .large()
+                    .override(binding.image.width, binding.image.height)
                     .albumPlaceholder(binding.image.context)
-                    .into(object : ImageViewTarget<PaletteBitmap?>(binding.image.image) {
+                    .into(object : ImageViewTarget<PaletteBitmap?>(binding.image) {
                         override fun onLoadFailed(errorDrawable: Drawable?) {
                             super.onLoadFailed(errorDrawable)
                             val activity = activity
@@ -148,7 +147,7 @@ class AlbumContentFragment : BaseFragment(), View.OnClickListener {
                             resource?.let {
                                 showLayout(it.backgroundColor, it.foregroundColor)
                                 if (!resource.bitmap.isRecycled) {
-                                    binding.image.image.setImageBitmap(it.bitmap)
+                                    binding.image.setImageBitmap(it.bitmap)
                                 }
                             }
                         }

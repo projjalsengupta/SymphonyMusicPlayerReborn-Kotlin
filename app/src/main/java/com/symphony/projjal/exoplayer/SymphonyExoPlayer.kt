@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.AudioTrack
+import android.media.AudioTrack.ERROR_BAD_VALUE
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -14,10 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.Player.*
-import com.google.android.exoplayer2.audio.AudioAttributes
-import com.google.android.exoplayer2.audio.AudioCapabilities
-import com.google.android.exoplayer2.audio.AudioSink
-import com.google.android.exoplayer2.audio.DefaultAudioSink
+import com.google.android.exoplayer2.audio.*
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
@@ -26,7 +25,11 @@ import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.BitmapCallback
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.MediaDescriptionAdapter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.util.Assertions
+import com.google.android.exoplayer2.util.Log
 import com.google.android.exoplayer2.util.Util
+import com.google.gson.Gson
+import com.paramsen.noise.Noise
 import com.symphony.bitmaputils.BitmapUtils
 import com.symphony.bitmaputils.BitmapUtils.drawableToBitmap
 import com.symphony.mediastorequery.model.Song
@@ -39,9 +42,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 
-class SymphonyExoPlayer(val context: Context, val service: Service) : Player.EventListener {
+class SymphonyExoPlayer(val context: Context, val service: Service) : EventListener {
     private val job = Job()
     private val playerScope = CoroutineScope(Dispatchers.Main + job)
 
@@ -166,6 +171,8 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : Player.Eve
         set(value) {
             player.playWhenReady = value
         }
+
+    val audioSessionId: Int get() = player.audioSessionId
 
     val isPlaying: Boolean get() = player.isPlaying
 
@@ -380,6 +387,106 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : Player.Eve
         return MediaItem.Builder().setUri(song.fileUri).setTag(song).build()
     }
 
+    private var sampleRateHz: Int = 0
+    private var channelCount: Int = 0
+    private var encoding: Int = 0
+
+    private var processBuffer: ByteBuffer = AudioProcessor.EMPTY_BUFFER
+    private var fftBuffer: ByteBuffer = AudioProcessor.EMPTY_BUFFER
+
+    private var noise: Noise? = null
+
+    companion object {
+        const val SAMPLE_SIZE = 4096
+
+        // From DefaultAudioSink.java:160 'MIN_BUFFER_DURATION_US'
+        private const val EXO_MIN_BUFFER_DURATION_US: Long = 250000
+
+        // From DefaultAudioSink.java:164 'MAX_BUFFER_DURATION_US'
+        private const val EXO_MAX_BUFFER_DURATION_US: Long = 750000
+
+        // From DefaultAudioSink.java:173 'BUFFER_MULTIPLICATION_FACTOR'
+        private const val EXO_BUFFER_MULTIPLICATION_FACTOR = 4
+
+        // Extra size next in addition to the AudioTrack buffer size
+        private const val BUFFER_EXTRA_SIZE = SAMPLE_SIZE * 8
+    }
+
+    private lateinit var srcBuffer: ByteBuffer
+    private var srcBufferPosition = 0
+    private val tempByteArray = ByteArray(SAMPLE_SIZE * 2)
+
+    private var audioTrackBufferSize = 0
+
+    private val src = FloatArray(SAMPLE_SIZE)
+    private val dst = FloatArray(SAMPLE_SIZE + 2)
+
+    private fun processFFT(buffer: ByteBuffer) {
+        if (visualizerListeners.isEmpty()) {
+            return
+        }
+
+        srcBuffer.put(buffer.array())
+        srcBufferPosition += buffer.array().size
+        // Since this is PCM 16 bit, each sample will be 2 bytes.
+        // So to get the sample size in the end, we need to take twice as many bytes off the buffer
+        val bytesToProcess = SAMPLE_SIZE * 2
+        var currentByte: Byte? = null
+        while (srcBufferPosition > audioTrackBufferSize) {
+            srcBuffer.position(0)
+            srcBuffer.get(tempByteArray, 0, bytesToProcess)
+
+            tempByteArray.forEachIndexed { index, byte ->
+                if (currentByte == null) {
+                    currentByte = byte
+                } else {
+                    src[index / 2] =
+                        (currentByte!!.toFloat() * Byte.MAX_VALUE + byte) / (Byte.MAX_VALUE * Byte.MAX_VALUE)
+                    dst[index / 2] = 0f
+                    currentByte = null
+                }
+
+            }
+            srcBuffer.position(bytesToProcess)
+            srcBuffer.compact()
+            srcBufferPosition -= bytesToProcess
+            srcBuffer.position(srcBufferPosition)
+
+            val fft = noise?.fft(src, dst)!!
+            visualizerListeners.forEach {
+                it.newBytes(sampleRateHz, channelCount, fft)
+            }
+        }
+    }
+
+    private fun durationUsToFrames(durationUs: Long): Long {
+        return durationUs * sampleRateHz / C.MICROS_PER_SECOND
+    }
+
+    private fun getDefaultBufferSizeInBytes(): Int {
+        val outputPcmFrameSize = Util.getPcmFrameSize(encoding, channelCount)
+        val minBufferSize =
+            AudioTrack.getMinBufferSize(
+                sampleRateHz,
+                Util.getAudioTrackChannelConfig(channelCount),
+                encoding
+            )
+        Assertions.checkState(minBufferSize != ERROR_BAD_VALUE)
+        val multipliedBufferSize = minBufferSize * EXO_BUFFER_MULTIPLICATION_FACTOR
+        val minAppBufferSize =
+            durationUsToFrames(EXO_MIN_BUFFER_DURATION_US).toInt() * outputPcmFrameSize
+        val maxAppBufferSize = Math.max(
+            minBufferSize.toLong(),
+            durationUsToFrames(EXO_MAX_BUFFER_DURATION_US) * outputPcmFrameSize
+        ).toInt()
+        val bufferSizeInFrames = Util.constrainValue(
+            multipliedBufferSize,
+            minAppBufferSize,
+            maxAppBufferSize
+        ) / outputPcmFrameSize
+        return bufferSizeInFrames * outputPcmFrameSize
+    }
+
     private fun init() {
         val renderersFactory = object : DefaultRenderersFactory(context) {
             override fun buildAudioSink(
@@ -390,14 +497,62 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : Player.Eve
             ): AudioSink? {
                 return DefaultAudioSink(
                     AudioCapabilities.DEFAULT_AUDIO_CAPABILITIES,
-                    DefaultAudioSink.DefaultAudioProcessorChain(
-                        SymphonyAudioProcessor(
-                            SymphonyAudioBufferSink()
-                        ),
-                        SymphonyAudioProcessor(
-                            SymphonyAudioBufferSink()
-                        )
-                    ).audioProcessors
+                    DefaultAudioSink.DefaultAudioProcessorChain(TeeAudioProcessor(object :
+                        TeeAudioProcessor.AudioBufferSink {
+                        override fun flush(sampleRateHz: Int, channelCount: Int, encoding: Int) {
+                            this@SymphonyExoPlayer.sampleRateHz = sampleRateHz
+                            this@SymphonyExoPlayer.channelCount = channelCount
+                            this@SymphonyExoPlayer.encoding = encoding
+
+                            noise = Noise.real(SAMPLE_SIZE)
+
+                            audioTrackBufferSize = getDefaultBufferSizeInBytes()
+                            srcBuffer =
+                                ByteBuffer.allocate(audioTrackBufferSize + BUFFER_EXTRA_SIZE)
+                        }
+
+                        override fun handleBuffer(buffer: ByteBuffer?) {
+                            if (buffer == null) {
+                                return
+                            }
+
+                            var position = buffer.position()
+                            val limit = buffer.limit()
+                            val frameCount = (limit - position) / (2 * channelCount)
+                            val singleChannelOutputSize = frameCount * 2
+                            val outputSize = frameCount * channelCount * 2
+
+                            if (processBuffer.capacity() < outputSize) {
+                                processBuffer = ByteBuffer.allocateDirect(outputSize)
+                                    .order(ByteOrder.nativeOrder())
+                            } else {
+                                processBuffer.clear()
+                            }
+
+                            if (fftBuffer.capacity() < singleChannelOutputSize) {
+                                fftBuffer =
+                                    ByteBuffer.allocateDirect(singleChannelOutputSize)
+                                        .order(ByteOrder.nativeOrder())
+                            } else {
+                                fftBuffer.clear()
+                            }
+
+                            while (position < limit) {
+                                var summedUp = 0
+                                for (channelIndex in 0 until channelCount) {
+                                    val current = buffer.getShort(position + 2 * channelIndex)
+                                    processBuffer.putShort(current)
+                                    summedUp += current
+                                }
+                                // For the FFT, we use an currentAverage of all the channels
+                                fftBuffer.putShort((summedUp / channelCount).toShort())
+                                position += channelCount * 2
+                            }
+
+                            processFFT(fftBuffer)
+                        }
+
+                    })).audioProcessors
                 )
             }
         }
@@ -565,6 +720,7 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : Player.Eve
     }
 
     val listeners: MutableList<EventListener> = mutableListOf()
+    val visualizerListeners: MutableList<VisualizerListener> = mutableListOf()
 
     fun addListener(listener: EventListener, invokeCallbacks: Boolean = false) {
         listeners.add(listener)
@@ -580,8 +736,16 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : Player.Eve
         }
     }
 
+    fun addVisualizerListener(visualizerListener: VisualizerListener) {
+        visualizerListeners.add(visualizerListener)
+    }
+
     fun removeListener(listener: EventListener) {
         listeners.remove(listener)
+    }
+
+    fun removeVisualizerListener(visualizerListener: VisualizerListener) {
+        visualizerListeners.remove(visualizerListener)
     }
 
     interface EventListener {
@@ -591,6 +755,10 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : Player.Eve
         fun onIsPlayingChanged(isPlaying: Boolean)
         fun onSongChanged(position: Int, song: Song?)
         fun onPlaybackPositionChanged(playbackPosition: Int, duration: Int)
+    }
+
+    interface VisualizerListener {
+        fun newBytes(sampleRateHz: Int, channelCount: Int, floatArray: FloatArray)
     }
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {

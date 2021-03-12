@@ -158,17 +158,23 @@ object ColorUtils {
         return spannableString
     }
 
-    fun animateBackgroundColorChange(fromColor: Int, toColor: Int, view: View) {
+    fun animateBackgroundColorChange(
+        fromColor: Int,
+        toColor: Int,
+        view: View,
+        duration: Long = 500
+    ): Animator {
         val backgroundColorAnimation = ValueAnimator.ofObject(
             ArgbEvaluator(),
             fromColor,
             toColor
         )
-        backgroundColorAnimation.duration = 500
+        backgroundColorAnimation.duration = duration
         backgroundColorAnimation.addUpdateListener { animator ->
             view.setBackgroundColor(animator.animatedValue as Int)
         }
         backgroundColorAnimation.start()
+        return backgroundColorAnimation
     }
 
     fun animateBackgroundColorChangeWithCircularReveal(
@@ -176,8 +182,9 @@ object ColorUtils {
         toColor: Int,
         centerView: View,
         view1: View,
-        view2: View
-    ) {
+        view2: View,
+        duration: Long = 500
+    ): Animator {
         view1.visibility = View.VISIBLE
         view1.setBackgroundColor(fromColor)
         view2.visibility = View.INVISIBLE
@@ -206,7 +213,6 @@ object ColorUtils {
 
             override fun onAnimationEnd(animation: Animator?) {
                 view1.setBackgroundColor(toColor)
-                view2.background = null
             }
 
             override fun onAnimationCancel(animation: Animator?) {}
@@ -214,7 +220,8 @@ object ColorUtils {
             override fun onAnimationRepeat(animation: Animator?) {}
 
         })
-        circularRevealAnimation.duration = 500
+        circularRevealAnimation.duration = duration
         circularRevealAnimation.start()
+        return circularRevealAnimation
     }
 }

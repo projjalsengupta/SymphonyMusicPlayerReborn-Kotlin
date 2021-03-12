@@ -11,27 +11,6 @@ import com.bumptech.glide.request.RequestOptions
 
 
 object SymphonyGlideExtension {
-    fun <T> GlideRequest<T>.small(): GlideRequest<T> {
-        val options = RequestOptions()
-            .centerCrop()
-            .override(dpToPx(50), dpToPx(50))
-        return apply(options)
-    }
-
-    fun <T> GlideRequest<T>.medium(): GlideRequest<T> {
-        val options = RequestOptions()
-            .centerCrop()
-            .override(dpToPx(200), dpToPx(200))
-        return apply(options)
-    }
-
-    fun <T> GlideRequest<T>.large(): GlideRequest<T> {
-        val options = RequestOptions()
-            .centerCrop()
-            .override(dpToPx(600), dpToPx(600))
-        return apply(options)
-    }
-
     private fun dpToPx(dp: Int): Int {
         return (dp * Resources.getSystem().displayMetrics.density).toInt()
     }

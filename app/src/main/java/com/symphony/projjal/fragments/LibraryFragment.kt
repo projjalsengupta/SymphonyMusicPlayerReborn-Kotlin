@@ -1,7 +1,6 @@
 package com.symphony.projjal.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
-import com.symphony.projjal.SymphonyGlideExtension.small
 import com.symphony.projjal.adapters.LibraryPagerAdapter
 import com.symphony.projjal.databinding.FragmentLibraryBinding
 import com.symphony.projjal.singletons.Cab
@@ -99,7 +97,7 @@ class LibraryFragment : BaseFragment() {
             binding.title.setTextColor(ThemeEngine(activity).textColorPrimary)
             GlideApp.with(this@LibraryFragment)
                 .load(R.drawable.ic_logo)
-                .small()
+                .override(binding.logo.width, binding.logo.height)
                 .into(binding.logo)
             binding.title.text = getString(R.string.app_name)
             binding.title.setTextColor(ThemeEngine(activity).textColorPrimary)

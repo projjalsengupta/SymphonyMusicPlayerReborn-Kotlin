@@ -8,7 +8,6 @@ import com.google.android.exoplayer2.Player.REPEAT_MODE_OFF
 import com.google.android.exoplayer2.Timeline
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.exoplayer.SymphonyExoPlayer
-import java.util.*
 
 class MusicService : Service() {
     private var player: SymphonyExoPlayer? = null
@@ -45,8 +44,18 @@ class MusicService : Service() {
         player?.addListener(eventListener, invokeCallbacks)
     }
 
+    fun addVisualizerListener(
+        visualizerListener: SymphonyExoPlayer.VisualizerListener
+    ) {
+        player?.addVisualizerListener(visualizerListener)
+    }
+
     fun removeEventListener(eventListener: SymphonyExoPlayer.EventListener) {
         player?.removeListener(eventListener)
+    }
+
+    fun removeVisualizerListener(visualizerListener: SymphonyExoPlayer.VisualizerListener) {
+        player?.removeVisualizerListener(visualizerListener)
     }
 
     override fun onDestroy() {
@@ -88,6 +97,8 @@ class MusicService : Service() {
     val totalSongCount: Int get() = player?.size ?: 0
 
     val isQueueEmpty: Boolean get() = player?.isQueueEmpty ?: true
+
+    val audioSessionId: Int get() = player?.audioSessionId ?: 0
 
     val positionInPlayingOrder: Int
         get() {

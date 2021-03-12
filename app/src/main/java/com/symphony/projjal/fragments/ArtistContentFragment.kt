@@ -19,11 +19,9 @@ import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
 import com.symphony.projjal.SymphonyGlideExtension.artistPlaceholder
-import com.symphony.projjal.SymphonyGlideExtension.large
 import com.symphony.projjal.adapters.ArtistContentAdapter
 import com.symphony.projjal.databinding.FragmentArtistContentBinding
 import com.symphony.projjal.glide.palette.PaletteBitmap
-import com.symphony.projjal.utils.ViewUtils.fitsSystemWindows
 import com.symphony.projjal.utils.ViewUtils.topFitsSystemWindows
 
 class ArtistContentFragment : BaseFragment(), View.OnClickListener {
@@ -117,9 +115,9 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
         GlideApp.with(binding.image.context)
             .`as`(PaletteBitmap::class.java)
             .load(artist)
-            .large()
+            .override(binding.image.width, binding.image.height)
             .artistPlaceholder(binding.image.context)
-            .into(object : ImageViewTarget<PaletteBitmap?>(binding.image.image) {
+            .into(object : ImageViewTarget<PaletteBitmap?>(binding.image) {
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     super.onLoadFailed(errorDrawable)
                     val activity = activity
@@ -135,7 +133,7 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
                     resource?.let {
                         showLayout(it.backgroundColor, it.foregroundColor)
                         if (!resource.bitmap.isRecycled) {
-                            binding.image.image.setImageBitmap(it.bitmap)
+                            binding.image.setImageBitmap(it.bitmap)
                         }
                     }
                 }

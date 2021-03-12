@@ -1,7 +1,6 @@
 package com.symphony.projjal.adapters
 
 import android.content.Context
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.updatePadding
@@ -23,7 +22,7 @@ class PlaylistsAdapter(private val context: Context?, private var items: Mutable
         RecyclerView.ViewHolder(binding.root) {
         init {
             val padding = dpToPx(8)
-            binding.image.image.updatePadding(padding, padding, padding, padding)
+            binding.image.updatePadding(padding, padding, padding, padding)
         }
     }
 
@@ -33,7 +32,7 @@ class PlaylistsAdapter(private val context: Context?, private var items: Mutable
         holder.binding.text1.text = playlist.name
         val songCountText = "${playlist.songCount} Songs"
         holder.binding.text2.text = songCountText
-        holder.binding.image.image.setImageResource(R.drawable.ic_playlist)
+        holder.binding.image.setImageResource(R.drawable.ic_playlist)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

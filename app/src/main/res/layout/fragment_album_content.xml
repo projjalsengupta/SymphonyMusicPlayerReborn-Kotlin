@@ -27,9 +27,10 @@
                 android:orientation="vertical"
                 app:layout_collapseMode="none">
 
-                <com.symphony.projjal.customviews.SquareSymphonyImageView
+                <com.symphony.projjal.customviews.SymphonyImageView
                     android:id="@+id/image"
                     android:layout_width="match_parent"
+                    app:square="true"
                     android:layout_height="wrap_content" />
 
                 <com.symphony.projjal.customviews.SquareView

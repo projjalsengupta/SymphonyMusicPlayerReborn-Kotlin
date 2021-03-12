@@ -1,69 +1,69 @@
 package com.symphony.projjal.customviews
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
-import android.widget.ImageView
-import androidx.core.view.doOnPreDraw
-import com.google.android.material.card.MaterialCardView
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import com.symphony.projjal.R
-import kotlin.math.max
 
-open class SymphonyImageView : MaterialCardView {
-    private var _image: ImageView? = null
-    val image: ImageView get() = _image!!
 
-    constructor(context: Context?) : super(context) {
-        init()
+open class SymphonyImageView : AppCompatImageView {
+    constructor(context: Context?) : super(context!!)
+    constructor(context: Context?, attrs: AttributeSet?) : super(context!!, attrs) {
+        init(attrs)
     }
 
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
-        init()
-    }
-
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(
+        context!!, attrs, defStyle
     ) {
-        init()
+        init(attrs)
     }
 
-    private fun init() {
-        inflate(
-            context,
-            R.layout.symphony_image_view,
-            this
-        )
-        cardElevation = 0f
-        elevation = 0f
-        setCardBackgroundColor(Color.TRANSPARENT)
-        rectangle()
+    init {
+        scaleType = ScaleType.CENTER_CROP
     }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        _image = findViewById(R.id.symphony_image_view)
-    }
-
 
     fun circle() {
-        this.doOnPreDraw {
-            this.radius = (max(width, height) / 2).toFloat()
-        }
+        background = ContextCompat.getDrawable(context, R.drawable.shape_circle)
+        clipToOutline = true
     }
 
     fun rounded() {
-        this.doOnPreDraw {
-            this.radius = 24f
-        }
+        background = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corners)
+        clipToOutline = true
     }
 
     fun rectangle() {
-        this.doOnPreDraw {
-            this.radius = 0f
+        background = ContextCompat.getDrawable(context, R.drawable.shape_rectangle)
+        clipToOutline = true
+    }
+
+    private var square = false
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        if (square) {
+            setMeasuredDimension(measuredWidth, measuredWidth)
+        } else {
+            setMeasuredDimension(measuredWidth, measuredHeight)
+        }
+    }
+
+    private fun init(attrs: AttributeSet?) {
+        if (attrs == null) {
+            return
+        }
+        val symphonyImageViewAttributes =
+            context.obtainStyledAttributes(attrs, R.styleable.SymphonyImageView, 0, 0)
+        try {
+            square =
+                symphonyImageViewAttributes.getBoolean(R.styleable.SymphonyImageView_square, false)
+        } finally {
+            symphonyImageViewAttributes.recycle()
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.symphony.projjal.fragments
 
+import android.animation.Animator
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -25,22 +26,26 @@ import com.symphony.colorutils.ColorUtils.getColor
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
-import com.symphony.projjal.SymphonyGlideExtension.large
+import com.symphony.projjal.SymphonyApplication.Companion.applicationInstance
 import com.symphony.projjal.activities.MainActivity
 import com.symphony.projjal.adapters.NowPlayingBottomDetailsAdapter
 import com.symphony.projjal.adapters.NowPlayingViewPagerAdapter
 import com.symphony.projjal.databinding.FragmentNowPlayingBinding
+import com.symphony.projjal.exoplayer.SymphonyExoPlayer
 import com.symphony.projjal.glide.palette.PaletteBitmap
 import com.symphony.projjal.utils.ConversionUtils.milisToTimeString
 import com.symphony.projjal.utils.PreferenceUtils.nowPlayingColorChangingAnimationStyle
 import com.symphony.projjal.utils.ViewUtils
 import com.symphony.themeengine.ThemeEngine
 
-class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekBarChangeListener,
+    SymphonyExoPlayer.VisualizerListener {
     private lateinit var nowPlayingBottomDetailsAdapter: NowPlayingBottomDetailsAdapter
 
     private val nowPlayingCurrentSongFragment: NowPlayingCurrentSongFragment =
         NowPlayingCurrentSongFragment.newInstance()
+
+    private var animator: Animator? = null
 
     private var previousBackgroundColor: Int = 0
 
@@ -83,11 +88,15 @@ class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekB
 
     override fun onResume() {
         super.onResume()
+        applicationInstance.getNonNullMusicService {
+            it.addVisualizerListener(this@NowPlayingFragment)
+        }
         binding.nowPlayingViewPager.registerOnPageChangeCallback(pageChangeCallback)
         setUpPadding()
     }
 
     override fun onPause() {
+        musicService?.removeVisualizerListener(this@NowPlayingFragment)
         super.onPause()
         binding.nowPlayingViewPager.unregisterOnPageChangeCallback(pageChangeCallback)
     }
@@ -103,7 +112,12 @@ class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekB
         setUpSlidingPanel()
         setUpCurrentSongFragment()
         loadBottomDetailsViewPager()
+        initVisualizerView()
         return binding.root
+    }
+
+    private fun initVisualizerView() {
+        //binding.visualizerView
     }
 
     private fun setUpCurrentSongFragment() {
@@ -385,7 +399,7 @@ class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekB
             GlideApp.with(activity)
                 .`as`(PaletteBitmap::class.java)
                 .load(song)
-                .large()
+                .override(500, 500)
                 .into(object : CustomTarget<PaletteBitmap?>() {
                     override fun onResourceReady(
                         resource: PaletteBitmap,
@@ -404,14 +418,15 @@ class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekB
     }
 
     private fun animateColors(backgroundColor: Int, foregroundColor: Int) {
+        animator?.cancel()
         if (nowPlayingColorChangingAnimationStyle == 1) {
-            animateBackgroundColorChange(
+            animator = animateBackgroundColorChange(
                 previousBackgroundColor,
                 backgroundColor,
                 binding.colorView1
             )
         } else {
-            animateBackgroundColorChangeWithCircularReveal(
+            animator = animateBackgroundColorChangeWithCircularReveal(
                 previousBackgroundColor,
                 backgroundColor,
                 binding.playPause,
@@ -442,5 +457,9 @@ class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekB
         fun newInstance(): NowPlayingFragment {
             return NowPlayingFragment()
         }
+    }
+
+    override fun newBytes(sampleRateHz: Int, channelCount: Int, floatArray: FloatArray) {
+        binding.visualizerView.newBytes(sampleRateHz, channelCount, floatArray)
     }
 }
