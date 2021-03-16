@@ -1,18 +1,28 @@
 package com.symphony.projjal.activities
 
+import android.animation.Animator
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.view.doOnPreDraw
 import com.afollestad.materialcab.attached.destroy
 import com.afollestad.materialcab.attached.isActive
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import com.symphony.colorutils.ColorUtils
 import com.symphony.mediastorequery.model.Song
+import com.symphony.projjal.GlideApp
+import com.symphony.projjal.R
 import com.symphony.projjal.SymphonyApplication.Companion.applicationInstance
 import com.symphony.projjal.databinding.ActivityMainBinding
 import com.symphony.projjal.fragments.LibraryFragment
 import com.symphony.projjal.fragments.NowPlayingFragment
 import com.symphony.projjal.fragments.NowPlayingSmallControllerFragment
+import com.symphony.projjal.glide.palette.PaletteBitmap
 import com.symphony.projjal.singletons.Cab.cab
-import com.symphony.projjal.utils.ConversionUtils.dpToPx
 import com.symphony.projjal.utils.ViewUtils.getNavigationBarHeight
 import com.symphony.themeengine.ThemeEngine
 
@@ -33,6 +43,24 @@ class MainActivity : BaseActivity() {
         setUpSlidingPanel()
         setUpSmallController()
         setUpNowPlaying()
+        setUpFragmentManagerBackstackListener()
+        val context = applicationContext
+        if (context != null) {
+            previousBackgroundColor = ThemeEngine(context).backgroundColor
+            currentSongBackgroundColor = previousBackgroundColor
+            currentSongForegroundColor = ThemeEngine(context).textColorPrimary
+        }
+    }
+
+    private fun setUpFragmentManagerBackstackListener() {
+        supportFragmentManager.addOnBackStackChangedListener {
+            if (supportFragmentManager.backStackEntryCount == 0) {
+                setSmallControllerAndNavigationBarColors(
+                    currentSongBackgroundColor,
+                    currentSongForegroundColor
+                )
+            }
+        }
     }
 
     private fun setUpLibrary() {
@@ -51,6 +79,7 @@ class MainActivity : BaseActivity() {
             nowPlayingSmallControllerFragment
         )
         fragmentTransaction.commit()
+        setAlpha(binding.smallControlsContainer, 1f)
     }
 
     private fun setUpNowPlaying() {
@@ -68,10 +97,12 @@ class MainActivity : BaseActivity() {
     }
 
     private fun updateSlidingPanelHeight(songCount: Int) {
-        binding.slidingUpPanel.panelHeight = getNavigationBarHeight(
-            context = this@MainActivity,
-            orientation = resources.configuration.orientation
-        ) + dpToPx(if (songCount == 0) 0 else 51)
+        binding.smallControlsContainer.doOnPreDraw {
+            binding.slidingUpPanel.panelHeight = getNavigationBarHeight(
+                context = this@MainActivity,
+                orientation = resources.configuration.orientation
+            ) + if (songCount == 0) 0 else binding.smallControlsContainer.height
+        }
     }
 
     fun setAntiDragView(view: View) {
@@ -82,11 +113,7 @@ class MainActivity : BaseActivity() {
         binding.slidingUpPanel.addPanelSlideListener(object :
             SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
-                if (musicService?.totalSongCount?.equals(0) == true) {
-                    setAlpha(binding.smallControlsContainer, 1 - slideOffset)
-                } else {
-                    setAlpha(binding.smallControlsContainer, slideOffset)
-                }
+                setAlpha(binding.smallControlsContainer, slideOffset)
                 setAlpha(binding.nowPlayingContainer, 1 - slideOffset)
             }
 
@@ -138,5 +165,71 @@ class MainActivity : BaseActivity() {
 
     override fun onPlayingQueueChanged(queue: MutableList<Song?>) {
         updateSlidingPanelHeight(queue.size)
+    }
+
+    private var previousBackgroundColor = Color.BLACK
+
+    private var animator: Animator? = null
+
+    private fun animateNavigationBackground(backgroundColor: Int) {
+        animator?.cancel()
+        animator = ColorUtils.animateBackgroundColorChange(
+            previousBackgroundColor,
+            backgroundColor,
+            binding.slidingContentContainer
+        )
+        previousBackgroundColor = backgroundColor
+    }
+
+    fun setSmallControllerAndNavigationBarColors(backgroundColor: Int, foregroundColor: Int) {
+        animateNavigationBackground(backgroundColor)
+        nowPlayingSmallControllerFragment.setColors(
+            backgroundColor,
+            foregroundColor
+        )
+    }
+
+    private var currentSongBackgroundColor: Int = 0
+    private var currentSongForegroundColor: Int = 0
+
+    override fun onSongChanged(position: Int, song: Song?) {
+        GlideApp.with(applicationContext)
+            .`as`(PaletteBitmap::class.java)
+            .load(song)
+            .override(500, 500)
+            .into(object : CustomTarget<PaletteBitmap?>() {
+                override fun onResourceReady(
+                    resource: PaletteBitmap,
+                    transition: Transition<in PaletteBitmap?>?
+                ) {
+                    currentSongBackgroundColor = resource.backgroundColor
+                    currentSongForegroundColor = resource.foregroundColor
+                    if (supportFragmentManager.backStackEntryCount == 0) {
+                        setSmallControllerAndNavigationBarColors(
+                            resource.backgroundColor,
+                            resource.foregroundColor
+                        )
+                    }
+                }
+
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    currentSongBackgroundColor = ContextCompat.getColor(
+                        applicationContext,
+                        R.color.grey_400
+                    )
+                    currentSongForegroundColor = Color.BLACK
+                    if (supportFragmentManager.backStackEntryCount == 0) {
+                        setSmallControllerAndNavigationBarColors(
+                            ContextCompat.getColor(
+                                applicationContext,
+                                R.color.grey_400
+                            ),
+                            Color.BLACK
+                        )
+                    }
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
     }
 }

@@ -23,7 +23,11 @@ object ViewUtils {
         }
     }
 
-    fun topFitsSystemWindows(view: View, context: Context?, orientation: Int) {
+    fun topFitsSystemWindows(
+        view: View,
+        context: Context?,
+        orientation: Int
+    ) {
         if (context == null) {
             return
         }

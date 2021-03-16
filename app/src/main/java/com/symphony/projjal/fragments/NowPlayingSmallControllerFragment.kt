@@ -1,18 +1,25 @@
 package com.symphony.projjal.fragments
 
+import android.animation.Animator
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.symphony.colorutils.ColorUtils
+import com.symphony.colorutils.ColorUtils.adjustAlpha
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
 import com.symphony.projjal.SymphonyGlideExtension.songPlaceholder
 import com.symphony.projjal.databinding.FragmentNowPlayingSmallControllerBinding
+import com.symphony.themeengine.ThemeEngine
 
 class NowPlayingSmallControllerFragment : BaseFragment(), View.OnClickListener {
     private var _binding: FragmentNowPlayingSmallControllerBinding? = null
     private val binding get() = _binding!!
+
+    private var previousBackgroundColor = Color.BLACK
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,19 +27,21 @@ class NowPlayingSmallControllerFragment : BaseFragment(), View.OnClickListener {
     ): View {
         _binding = FragmentNowPlayingSmallControllerBinding.inflate(inflater, container, false)
         setOnClickListeners()
+        val context = context
+        if (context != null) {
+            previousBackgroundColor = ThemeEngine(context).backgroundColor
+        }
         return binding.root
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             binding.playPause.id -> musicService?.changePlayPause()
-            binding.playNext.id -> musicService?.playNext()
         }
     }
 
     private fun setOnClickListeners() {
         binding.playPause.setOnClickListener(this@NowPlayingSmallControllerFragment)
-        binding.playNext.setOnClickListener(this@NowPlayingSmallControllerFragment)
     }
 
     private fun updateSongInfo(song: Song?) {
@@ -43,9 +52,26 @@ class NowPlayingSmallControllerFragment : BaseFragment(), View.OnClickListener {
         binding.text2.text = song.artist
         GlideApp.with(binding.image.context)
             .load(song)
-            .override(binding.image.width, binding.image.height)
             .songPlaceholder(context)
+            .override(binding.image.width, binding.image.height)
             .into(binding.image)
+    }
+
+    private var animator: Animator? = null
+
+    fun setColors(backgroundColor: Int, foregroundColor: Int) {
+        animator?.cancel()
+        animator = ColorUtils.animateBackgroundColorChange(
+            previousBackgroundColor,
+            backgroundColor,
+            binding.backgroundView
+        )
+        previousBackgroundColor = backgroundColor
+        binding.text1.setTextColor(foregroundColor)
+        binding.text2.setTextColor(foregroundColor)
+        binding.playPause.setColorFilter(foregroundColor)
+        binding.progressBar.setIndicatorColor(foregroundColor)
+        binding.progressBar.trackColor = adjustAlpha(foregroundColor, 0.25f)
     }
 
     private fun setPlayPause(isPlaying: Boolean) {

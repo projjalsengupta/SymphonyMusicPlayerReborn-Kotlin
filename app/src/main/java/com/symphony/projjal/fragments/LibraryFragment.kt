@@ -1,6 +1,8 @@
 package com.symphony.projjal.fragments
 
+import android.os.Build
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +32,7 @@ class LibraryFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        postponeEnterTransition()
         setUpToolbar()
         loadViewPager()
         return binding.root
@@ -79,6 +82,10 @@ class LibraryFragment : BaseFragment() {
             tab.text = tabTitles[position]
             binding.libraryViewPager.setCurrentItem(tab.position, true)
         }.attach()
+
+        binding.libraryViewPager.post {
+            startPostponedEnterTransition()
+        }
     }
 
     override fun onDestroyView() {
@@ -90,9 +97,9 @@ class LibraryFragment : BaseFragment() {
         val activity = activity
         if (activity != null) {
             ViewUtils.topFitsSystemWindows(
-                view = binding.toolbarContainer,
-                context = activity,
-                orientation = resources.configuration.orientation
+                binding.toolbarContainer,
+                context,
+                resources.configuration.orientation
             )
             binding.title.setTextColor(ThemeEngine(activity).textColorPrimary)
             GlideApp.with(this@LibraryFragment)
@@ -114,4 +121,6 @@ class LibraryFragment : BaseFragment() {
             return LibraryFragment()
         }
     }
+
+
 }

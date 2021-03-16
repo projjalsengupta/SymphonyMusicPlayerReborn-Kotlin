@@ -4,7 +4,6 @@
     android:id="@+id/recyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fadingEdgeLength="16dp"
-    android:requiresFadingEdge="vertical"
+    android:overScrollMode="never"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" />

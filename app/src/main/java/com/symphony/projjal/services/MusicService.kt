@@ -44,18 +44,8 @@ class MusicService : Service() {
         player?.addListener(eventListener, invokeCallbacks)
     }
 
-    fun addVisualizerListener(
-        visualizerListener: SymphonyExoPlayer.VisualizerListener
-    ) {
-        player?.addVisualizerListener(visualizerListener)
-    }
-
     fun removeEventListener(eventListener: SymphonyExoPlayer.EventListener) {
         player?.removeListener(eventListener)
-    }
-
-    fun removeVisualizerListener(visualizerListener: SymphonyExoPlayer.VisualizerListener) {
-        player?.removeVisualizerListener(visualizerListener)
     }
 
     override fun onDestroy() {

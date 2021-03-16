@@ -142,11 +142,6 @@
                         android:src="@drawable/ic_repeat"
                         tools:ignore="ContentDescription" />
                 </LinearLayout>
-
-                <com.symphony.projjal.exoplayer.ExoVisualizer
-                    android:id="@+id/visualizerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
             </LinearLayout>
         </FrameLayout>
 

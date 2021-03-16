@@ -17,6 +17,7 @@ import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.palette.graphics.Palette
 import androidx.palette.graphics.Palette.Swatch
+import java.lang.Exception
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.hypot
@@ -163,18 +164,23 @@ object ColorUtils {
         toColor: Int,
         view: View,
         duration: Long = 500
-    ): Animator {
-        val backgroundColorAnimation = ValueAnimator.ofObject(
-            ArgbEvaluator(),
-            fromColor,
-            toColor
-        )
-        backgroundColorAnimation.duration = duration
-        backgroundColorAnimation.addUpdateListener { animator ->
-            view.setBackgroundColor(animator.animatedValue as Int)
+    ): Animator? {
+        return try {
+            val backgroundColorAnimation = ValueAnimator.ofObject(
+                ArgbEvaluator(),
+                fromColor,
+                toColor
+            )
+            backgroundColorAnimation.duration = duration
+            backgroundColorAnimation.addUpdateListener { animator ->
+                view.setBackgroundColor(animator.animatedValue as Int)
+            }
+            backgroundColorAnimation.start()
+            backgroundColorAnimation
+        } catch (ignored: Exception) {
+            view.setBackgroundColor(toColor)
+            null
         }
-        backgroundColorAnimation.start()
-        return backgroundColorAnimation
     }
 
     fun animateBackgroundColorChangeWithCircularReveal(
@@ -184,44 +190,50 @@ object ColorUtils {
         view1: View,
         view2: View,
         duration: Long = 500
-    ): Animator {
-        view1.visibility = View.VISIBLE
-        view1.setBackgroundColor(fromColor)
-        view2.visibility = View.INVISIBLE
-        view2.setBackgroundColor(toColor)
+    ): Animator? {
+        return try {
+            view1.visibility = View.VISIBLE
+            view1.setBackgroundColor(fromColor)
+            view2.visibility = View.INVISIBLE
+            view2.setBackgroundColor(toColor)
 
-        val location = IntArray(2)
-        centerView.getLocationOnScreen(location)
-        val cx = location[0] + centerView.width / 2
-        val cy = location[1] + centerView.height / 2
-        val height = view1.height
-        val width = view1.width
-        val radiusList = DoubleArray(4)
-        radiusList[0] = hypot(cx.toDouble(), cy.toDouble())
-        radiusList[1] = hypot((width - cx).toDouble(), cy.toDouble())
-        radiusList[2] = hypot(cx.toDouble(), (height - cy).toDouble())
-        radiusList[3] = hypot((width - cx).toDouble(), (height - cy).toDouble())
-        val radius = radiusList.maxOrNull()?.toFloat() ?: 0f
+            val location = IntArray(2)
+            centerView.getLocationOnScreen(location)
+            val cx = location[0] + centerView.width / 2
+            val cy = location[1] + centerView.height / 2
+            val height = view1.height
+            val width = view1.width
+            val radiusList = DoubleArray(4)
+            radiusList[0] = hypot(cx.toDouble(), cy.toDouble())
+            radiusList[1] = hypot((width - cx).toDouble(), cy.toDouble())
+            radiusList[2] = hypot(cx.toDouble(), (height - cy).toDouble())
+            radiusList[3] = hypot((width - cx).toDouble(), (height - cy).toDouble())
+            val radius = radiusList.maxOrNull()?.toFloat() ?: 0f
 
-        val circularRevealAnimation =
-            ViewAnimationUtils.createCircularReveal(view2, cx, cy, 0f, radius)
+            val circularRevealAnimation =
+                ViewAnimationUtils.createCircularReveal(view2, cx, cy, 0f, radius)
 
-        view2.visibility = View.VISIBLE
+            view2.visibility = View.VISIBLE
 
-        circularRevealAnimation.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {}
+            circularRevealAnimation.addListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {}
 
-            override fun onAnimationEnd(animation: Animator?) {
-                view1.setBackgroundColor(toColor)
-            }
+                override fun onAnimationEnd(animation: Animator?) {
+                    view1.setBackgroundColor(toColor)
+                }
 
-            override fun onAnimationCancel(animation: Animator?) {}
+                override fun onAnimationCancel(animation: Animator?) {}
 
-            override fun onAnimationRepeat(animation: Animator?) {}
+                override fun onAnimationRepeat(animation: Animator?) {}
 
-        })
-        circularRevealAnimation.duration = duration
-        circularRevealAnimation.start()
-        return circularRevealAnimation
+            })
+            circularRevealAnimation.duration = duration
+            circularRevealAnimation.start()
+            circularRevealAnimation
+        } catch (ignored: Exception) {
+            view1.setBackgroundColor(toColor)
+            view2.setBackgroundColor(toColor)
+            null
+        }
     }
 }

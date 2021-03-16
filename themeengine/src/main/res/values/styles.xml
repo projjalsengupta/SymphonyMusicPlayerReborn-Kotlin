@@ -17,12 +17,14 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="android:windowContentTransitions">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
 
     <style name="Symphony.Black" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowContentTransitions">true</item>
         <item name="android:actionButtonStyle">@style/ActionButtonWhite</item>
         <item name="android:actionOverflowButtonStyle">@style/ActionButtonWhite</item>
         <item name="android:textColorPrimary">@color/dark_bg_light_primary_text</item>
@@ -39,6 +41,7 @@
     <style name="Symphony.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
         <item name="android:windowBackground">@color/grey_50</item>
+        <item name="android:windowContentTransitions">true</item>
         <item name="android:actionButtonStyle">@style/ActionButtonBlack</item>
         <item name="android:actionOverflowButtonStyle">@style/ActionButtonBlack</item>
         <item name="android:textColorPrimary">@color/light_bg_dark_primary_text</item>

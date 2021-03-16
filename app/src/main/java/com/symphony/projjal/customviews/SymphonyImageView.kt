@@ -2,12 +2,14 @@ package com.symphony.projjal.customviews
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContextCompat
+import androidx.core.view.doOnPreDraw
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.shape.CornerFamily
 import com.symphony.projjal.R
+import com.symphony.projjal.utils.ConversionUtils.dpToPx
+import kotlin.math.max
 
-
-open class SymphonyImageView : AppCompatImageView {
+open class SymphonyImageView : ShapeableImageView {
     constructor(context: Context?) : super(context!!)
     constructor(context: Context?, attrs: AttributeSet?) : super(context!!, attrs) {
         init(attrs)
@@ -24,18 +26,32 @@ open class SymphonyImageView : AppCompatImageView {
     }
 
     fun circle() {
-        background = ContextCompat.getDrawable(context, R.drawable.shape_circle)
-        clipToOutline = true
+        doOnPreDraw {
+            val radius = max(width, height) / 2
+            shapeAppearanceModel = shapeAppearanceModel
+                .toBuilder()
+                .setAllCorners(CornerFamily.ROUNDED, radius.toFloat())
+                .build()
+        }
     }
 
     fun rounded() {
-        background = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corners)
-        clipToOutline = true
+        doOnPreDraw {
+            val radius = dpToPx(8)
+            shapeAppearanceModel = shapeAppearanceModel
+                .toBuilder()
+                .setAllCorners(CornerFamily.ROUNDED, radius.toFloat())
+                .build()
+        }
     }
 
     fun rectangle() {
-        background = ContextCompat.getDrawable(context, R.drawable.shape_rectangle)
-        clipToOutline = true
+        doOnPreDraw {
+            shapeAppearanceModel = shapeAppearanceModel
+                .toBuilder()
+                .setAllCorners(CornerFamily.ROUNDED, 0f)
+                .build()
+        }
     }
 
     private var square = false

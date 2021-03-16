@@ -38,8 +38,7 @@ import com.symphony.projjal.utils.PreferenceUtils.nowPlayingColorChangingAnimati
 import com.symphony.projjal.utils.ViewUtils
 import com.symphony.themeengine.ThemeEngine
 
-class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekBarChangeListener,
-    SymphonyExoPlayer.VisualizerListener {
+class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekBarChangeListener {
     private lateinit var nowPlayingBottomDetailsAdapter: NowPlayingBottomDetailsAdapter
 
     private val nowPlayingCurrentSongFragment: NowPlayingCurrentSongFragment =
@@ -88,15 +87,11 @@ class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekB
 
     override fun onResume() {
         super.onResume()
-        applicationInstance.getNonNullMusicService {
-            it.addVisualizerListener(this@NowPlayingFragment)
-        }
         binding.nowPlayingViewPager.registerOnPageChangeCallback(pageChangeCallback)
         setUpPadding()
     }
 
     override fun onPause() {
-        musicService?.removeVisualizerListener(this@NowPlayingFragment)
         super.onPause()
         binding.nowPlayingViewPager.unregisterOnPageChangeCallback(pageChangeCallback)
     }
@@ -457,9 +452,5 @@ class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekB
         fun newInstance(): NowPlayingFragment {
             return NowPlayingFragment()
         }
-    }
-
-    override fun newBytes(sampleRateHz: Int, channelCount: Int, floatArray: FloatArray) {
-        binding.visualizerView.newBytes(sampleRateHz, channelCount, floatArray)
     }
 }

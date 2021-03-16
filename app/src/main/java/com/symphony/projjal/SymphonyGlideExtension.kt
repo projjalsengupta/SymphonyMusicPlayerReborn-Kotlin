@@ -9,7 +9,6 @@ import android.graphics.drawable.LayerDrawable
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.request.RequestOptions
 
-
 object SymphonyGlideExtension {
     private fun dpToPx(dp: Int): Int {
         return (dp * Resources.getSystem().displayMetrics.density).toInt()

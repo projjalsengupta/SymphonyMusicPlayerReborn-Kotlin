@@ -10,6 +10,7 @@ import com.symphony.mediastorequery.model.Album
 import com.symphony.projjal.R
 import com.symphony.projjal.adapters.viewholders.LibraryHeaderItemViewHolder
 import com.symphony.projjal.adapters.viewholders.LibraryItemViewHolder
+import com.symphony.projjal.customviews.SymphonyImageView
 import com.symphony.projjal.databinding.RecyclerviewItemLibraryHeaderBinding
 import com.symphony.projjal.databinding.RecyclerviewItemLibraryLargeBinding
 import com.symphony.projjal.databinding.RecyclerviewItemLibrarySmallBinding
@@ -21,7 +22,7 @@ import me.zhanghai.android.fastscroll.PopupTextProvider
 class AlbumsAdapter(
     private val context: Context?,
     private var items: MutableList<Album>,
-    private val clickListener: (Album) -> Unit,
+    private val clickListener: (Album, SymphonyImageView) -> Unit,
     private val selectionChanged: (MutableList<Album>) -> Unit,
     private val styleClicked: (View) -> Unit,
     private val sortClicked: (View) -> Unit,
@@ -82,13 +83,14 @@ class AlbumsAdapter(
                     if (selectedItems.size > 0) {
                         addOrRemoveItemFromSelection(album)
                     } else {
-                        clickListener(album)
+                        clickListener(album, holder.image)
                     }
                 }
                 holder.clickView.setOnLongClickListener {
                     addOrRemoveItemFromSelection(album)
                     true
                 }
+                holder.image.transitionName = "${album.id}"
             }
             is LibraryHeaderItemViewHolder -> {
                 holder.bind(

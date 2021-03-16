@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.request.target.Target
 import com.symphony.colorutils.ColorUtils
+import com.symphony.colorutils.ColorUtils.adjustAlpha
 import com.symphony.colorutils.ColorUtils.contrastColor
 import com.symphony.colorutils.ColorUtils.getColor
 import com.symphony.projjal.*
@@ -62,7 +63,6 @@ class LibraryItemViewHolder(
 
     private var fallbackBackgroundColor: Int = Color.BLACK
     private var fallbackForegroundColor: Int = Color.WHITE
-    private var previousBackgroundColor: Int = Color.BLACK
     private var colorControlHighLight: Int = 0
 
     var key: String? = null
@@ -70,9 +70,12 @@ class LibraryItemViewHolder(
     init {
         itemView.context?.let {
             val themeEngine = ThemeEngine(it)
-            fallbackBackgroundColor = themeEngine.backgroundColor
+            if (contrastColor(themeEngine.backgroundColor) == Color.BLACK) {
+                fallbackBackgroundColor = getColor(it, R.color.grey_400)
+            } else {
+                fallbackBackgroundColor = getColor(it, R.color.grey_900)
+            }
             fallbackForegroundColor = themeEngine.textColorPrimary
-            previousBackgroundColor = themeEngine.backgroundColor
             colorControlHighLight = themeEngine.colorControlHighLight
         }
     }
@@ -153,7 +156,7 @@ class LibraryItemViewHolder(
                     if (gridSize > 1) {
                         setLayoutStyle(
                             backgroundColor = ContextCompat.getColor(context, R.color.grey_400),
-                            foregroundColor = ContextCompat.getColor(context, R.color.black),
+                            foregroundColor = Color.BLACK,
                             layoutStyle = layoutStyle
                         )
                     }
@@ -194,32 +197,18 @@ class LibraryItemViewHolder(
     ) = with(itemView) {
         when (layoutStyle) {
             LAYOUT_STYLE_CARD -> {
-                if (contrastColor(fallbackBackgroundColor) == Color.WHITE) {
-                    animateBackgroundColor(
-                        containerView,
-                        previousBackgroundColor,
-                        getColor(context, R.color.grey_800)
-                    )
-                } else {
-                    animateBackgroundColor(
-                        containerView,
-                        previousBackgroundColor,
-                        getColor(context, R.color.grey_200)
-                    )
-                }
+                animateBackgroundColor(containerView, fallbackBackgroundColor)
             }
             LAYOUT_STYLE_COLORED -> {
-                val fromColor = if (contrastColor(fallbackBackgroundColor) == Color.WHITE) {
-                    getColor(context, R.color.grey_800)
-                } else {
-                    getColor(context, R.color.grey_200)
-                }
-                animateBackgroundColor(containerView, fromColor, backgroundColor)
+                animateBackgroundColor(containerView, backgroundColor)
 
                 text1.setTextColor(foregroundColor)
                 text2.setTextColor(foregroundColor)
 
                 menu.setColorFilter(foregroundColor)
+            }
+            else -> {
+                animateBackgroundColor(containerView, Color.TRANSPARENT)
             }
         }
     }
@@ -255,14 +244,13 @@ class LibraryItemViewHolder(
 
     private var animator: Animator? = null
 
-    private fun animateBackgroundColor(view: View, fromColor: Int, toColor: Int) {
+    private fun animateBackgroundColor(view: View, color: Int) {
         animator?.cancel()
         animator = ColorUtils.animateBackgroundColorChange(
-            fromColor,
-            toColor,
+            adjustAlpha(color, 0.25f),
+            color,
             view,
-            100
+            250
         )
-        previousBackgroundColor = toColor
     }
 }

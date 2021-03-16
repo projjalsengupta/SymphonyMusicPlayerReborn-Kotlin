@@ -19,6 +19,7 @@ import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
 import com.symphony.projjal.SymphonyGlideExtension.artistPlaceholder
+import com.symphony.projjal.activities.MainActivity
 import com.symphony.projjal.adapters.ArtistContentAdapter
 import com.symphony.projjal.databinding.FragmentArtistContentBinding
 import com.symphony.projjal.glide.palette.PaletteBitmap
@@ -42,7 +43,18 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
         setUpToolbar()
         setUpOnClickListeners()
         load()
+        setUpFragmentManagerBackstackListener()
         return binding.root
+    }
+
+    private fun setUpFragmentManagerBackstackListener() {
+        activity?.supportFragmentManager?.addOnBackStackChangedListener {
+            if (backgroundColor != 0 || foregroundColor != 0) {
+                if (!isHidden) {
+                    setSmallControllerAndNavigationBarColors(backgroundColor, foregroundColor)
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -140,6 +152,9 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
             })
     }
 
+    private var backgroundColor: Int = 0
+    private var foregroundColor: Int = 0
+
     private fun showLayout(backgroundColor: Int, foregroundColor: Int) {
         binding.backgroundView.setBackgroundColor(backgroundColor)
         binding.collapsingToolbarLayout.setContentScrimColor(backgroundColor)
@@ -165,6 +180,21 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
         setRecyclerViewAdapter(foregroundColor)
         animateRecyclerView()
         binding.root.visibility = View.VISIBLE
+
+        setSmallControllerAndNavigationBarColors(backgroundColor, foregroundColor)
+
+        this.backgroundColor = backgroundColor
+        this.foregroundColor = foregroundColor
+    }
+
+    private fun setSmallControllerAndNavigationBarColors(
+        backgroundColor: Int,
+        foregroundColor: Int
+    ) {
+        (activity as MainActivity?)?.setSmallControllerAndNavigationBarColors(
+            backgroundColor,
+            foregroundColor
+        )
     }
 
     private fun setToolbarIconsColor(color: Int) {

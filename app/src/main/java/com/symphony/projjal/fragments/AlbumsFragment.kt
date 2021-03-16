@@ -2,7 +2,6 @@ package com.symphony.projjal.fragments
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.afollestad.materialcab.attached.destroy
 import com.symphony.mediastorequery.Constants.SORT_ALBUMS_BY_ARTIST
 import com.symphony.mediastorequery.Constants.SORT_ALBUMS_BY_TITLE
 import com.symphony.mediastorequery.Constants.SORT_ALBUMS_BY_YEAR
@@ -12,7 +11,7 @@ import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.R
 import com.symphony.projjal.adapters.AlbumsAdapter
 import com.symphony.projjal.fragments.LibraryItemFragment.Constants.FRAGMENT_ALBUMS
-import com.symphony.projjal.singletons.Cab
+import com.symphony.projjal.utils.FragmentUtils
 import com.symphony.projjal.utils.FragmentUtils.addFragment
 import com.symphony.projjal.utils.PreferenceUtils.albumGridSize
 import com.symphony.projjal.utils.PreferenceUtils.albumSortBy
@@ -30,12 +29,13 @@ class AlbumsFragment : LibraryItemFragment() {
         adapter = AlbumsAdapter(
             context = activity,
             items = albums,
-            clickListener = {
+            clickListener = { it1, it2 ->
                 addFragment(
                     activity = activity as AppCompatActivity,
                     id = R.id.fragmentContainer,
-                    newFragment = AlbumContentFragment.newInstance(it),
-                    fragmentName = "album ${it.id}"
+                    newFragment = AlbumContentFragment.newInstance(it1),
+                    fragmentName = "album ${it1.id}",
+                    sharedImageView = FragmentUtils.SharedImageView(it2)
                 )
             },
             selectionChanged = {

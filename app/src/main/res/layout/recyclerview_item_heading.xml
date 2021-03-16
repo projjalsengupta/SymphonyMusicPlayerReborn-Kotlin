@@ -7,5 +7,5 @@
     android:clickable="true"
     android:focusable="true"
     android:textColor="?android:textColorSecondary"
-    android:textSize="24sp"
+    android:textSize="18sp"
     android:textStyle="bold" />
