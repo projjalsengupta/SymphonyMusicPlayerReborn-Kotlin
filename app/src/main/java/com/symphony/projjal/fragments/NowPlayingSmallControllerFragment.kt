@@ -11,7 +11,6 @@ import com.symphony.colorutils.ColorUtils.adjustAlpha
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
-import com.symphony.projjal.SymphonyGlideExtension.songPlaceholder
 import com.symphony.projjal.databinding.FragmentNowPlayingSmallControllerBinding
 import com.symphony.themeengine.ThemeEngine
 
@@ -52,19 +51,19 @@ class NowPlayingSmallControllerFragment : BaseFragment(), View.OnClickListener {
         binding.text2.text = song.artist
         GlideApp.with(binding.image.context)
             .load(song)
-            .songPlaceholder(context)
             .override(binding.image.width, binding.image.height)
             .into(binding.image)
     }
 
     private var animator: Animator? = null
 
-    fun setColors(backgroundColor: Int, foregroundColor: Int) {
+    fun setColors(backgroundColor: Int, foregroundColor: Int, gradient: Boolean = false) {
         animator?.cancel()
         animator = ColorUtils.animateBackgroundColorChange(
             previousBackgroundColor,
             backgroundColor,
-            binding.backgroundView
+            binding.backgroundView,
+            gradient = gradient
         )
         previousBackgroundColor = backgroundColor
         binding.text1.setTextColor(foregroundColor)

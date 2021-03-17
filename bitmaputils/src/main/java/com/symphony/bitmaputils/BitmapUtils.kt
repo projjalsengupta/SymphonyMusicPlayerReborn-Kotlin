@@ -14,8 +14,8 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
+import java.nio.ByteBuffer
 import javax.net.ssl.HttpsURLConnection
-
 
 object BitmapUtils {
     private const val TAG = "bitmaputils"
@@ -71,30 +71,6 @@ object BitmapUtils {
         return bytesResult
     }
 
-    fun decodeByteArray(
-        data: ByteArray?,
-        length: Int,
-        reqWidth: Int,
-        reqHeight: Int,
-        config: Bitmap.Config?
-    ): Bitmap? {
-        return try {
-            val options = BitmapFactory.Options()
-            options.inJustDecodeBounds = true
-            options.inPreferredConfig = config
-            BitmapFactory.decodeByteArray(data, 0, length, options)
-            options.inSampleSize = BitmapUtils.calculateInSampleSize(options, reqWidth, reqHeight)
-            options.inDensity = options.outWidth
-            options.inTargetDensity = reqWidth * options.inSampleSize
-            options.inMutable = true
-            options.inJustDecodeBounds = false
-            BitmapFactory.decodeByteArray(data, 0, length, options)
-        } catch (e: Exception) {
-            Log.v(BitmapUtils.TAG, "error while decoding byte array")
-            null
-        }
-    }
-
     private fun calculateInSampleSize(
         options: BitmapFactory.Options,
         reqWidth: Int,
@@ -127,6 +103,22 @@ object BitmapUtils {
         }
     }
 
+    fun Bitmap.convertToByteArray(): ByteArray {
+        val stream = ByteArrayOutputStream()
+        this.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray()
+    }
+
+    fun getByteDataFromDrawable(context: Context?, drawable: Drawable?): ByteArray? {
+        if (context == null) {
+            return null
+        }
+        val bitmap = drawableToBitmap(drawable, 500, 500)
+        val stream = ByteArrayOutputStream()
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        return stream.toByteArray()
+    }
+
     fun getByteDataFromUri(context: Context?, uri: Uri?): ByteArray? {
         return try {
             if (context != null && uri != null) {
@@ -150,7 +142,7 @@ object BitmapUtils {
         }
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight())
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.draw(canvas)
         return bitmap
     }

@@ -3,9 +3,9 @@ package com.symphony.projjal.activities
 import android.animation.Animator
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import com.afollestad.materialcab.attached.destroy
 import com.afollestad.materialcab.attached.isActive
@@ -13,14 +13,15 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.symphony.colorutils.ColorUtils
+import com.symphony.colorutils.ColorUtils.adjustAlpha
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.GlideApp
-import com.symphony.projjal.R
 import com.symphony.projjal.SymphonyApplication.Companion.applicationInstance
 import com.symphony.projjal.databinding.ActivityMainBinding
 import com.symphony.projjal.fragments.LibraryFragment
 import com.symphony.projjal.fragments.NowPlayingFragment
 import com.symphony.projjal.fragments.NowPlayingSmallControllerFragment
+import com.symphony.projjal.glide.BlurTransformation
 import com.symphony.projjal.glide.palette.PaletteBitmap
 import com.symphony.projjal.singletons.Cab.cab
 import com.symphony.projjal.utils.ViewUtils.getNavigationBarHeight
@@ -46,9 +47,10 @@ class MainActivity : BaseActivity() {
         setUpFragmentManagerBackstackListener()
         val context = applicationContext
         if (context != null) {
-            previousBackgroundColor = ThemeEngine(context).backgroundColor
+            previousBackgroundColor = ThemeEngine(this).backgroundColor
             currentSongBackgroundColor = previousBackgroundColor
-            currentSongForegroundColor = ThemeEngine(context).textColorPrimary
+            currentSongForegroundColor = ThemeEngine(this).textColorPrimary
+            themeBackgroundColor = ThemeEngine(this).backgroundColor
         }
     }
 
@@ -57,7 +59,8 @@ class MainActivity : BaseActivity() {
             if (supportFragmentManager.backStackEntryCount == 0) {
                 setSmallControllerAndNavigationBarColors(
                     currentSongBackgroundColor,
-                    currentSongForegroundColor
+                    currentSongForegroundColor,
+                    true
                 )
             }
         }
@@ -79,7 +82,6 @@ class MainActivity : BaseActivity() {
             nowPlayingSmallControllerFragment
         )
         fragmentTransaction.commit()
-        setAlpha(binding.smallControlsContainer, 1f)
     }
 
     private fun setUpNowPlaying() {
@@ -102,6 +104,18 @@ class MainActivity : BaseActivity() {
                 context = this@MainActivity,
                 orientation = resources.configuration.orientation
             ) + if (songCount == 0) 0 else binding.smallControlsContainer.height
+        }
+        if (songCount <= 0) {
+            binding.smallControlsContainer.visibility = View.INVISIBLE
+            binding.nowPlayingContainer.visibility = View.INVISIBLE
+        } else {
+            if (binding.slidingUpPanel.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                binding.smallControlsContainer.visibility = View.INVISIBLE
+                binding.nowPlayingContainer.visibility = View.VISIBLE
+            } else {
+                binding.smallControlsContainer.visibility = View.VISIBLE
+                binding.nowPlayingContainer.visibility = View.INVISIBLE
+            }
         }
     }
 
@@ -163,10 +177,11 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    override fun onPlayingQueueChanged(queue: MutableList<Song?>) {
+    override fun onPlayingQueueChanged(queue: MutableList<Song>) {
         updateSlidingPanelHeight(queue.size)
     }
 
+    private var themeBackgroundColor = Color.BLACK
     private var previousBackgroundColor = Color.BLACK
 
     private var animator: Animator? = null
@@ -176,16 +191,22 @@ class MainActivity : BaseActivity() {
         animator = ColorUtils.animateBackgroundColorChange(
             previousBackgroundColor,
             backgroundColor,
-            binding.slidingContentContainer
+            binding.slidingContentContainer,
+            gradient = true
         )
         previousBackgroundColor = backgroundColor
     }
 
-    fun setSmallControllerAndNavigationBarColors(backgroundColor: Int, foregroundColor: Int) {
+    fun setSmallControllerAndNavigationBarColors(
+        backgroundColor: Int,
+        foregroundColor: Int,
+        gradient: Boolean = false
+    ) {
         animateNavigationBackground(backgroundColor)
         nowPlayingSmallControllerFragment.setColors(
             backgroundColor,
-            foregroundColor
+            foregroundColor,
+            gradient = gradient
         )
     }
 
@@ -207,26 +228,13 @@ class MainActivity : BaseActivity() {
                     if (supportFragmentManager.backStackEntryCount == 0) {
                         setSmallControllerAndNavigationBarColors(
                             resource.backgroundColor,
-                            resource.foregroundColor
+                            resource.foregroundColor,
+                            true
                         )
                     }
                 }
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
-                    currentSongBackgroundColor = ContextCompat.getColor(
-                        applicationContext,
-                        R.color.grey_400
-                    )
-                    currentSongForegroundColor = Color.BLACK
-                    if (supportFragmentManager.backStackEntryCount == 0) {
-                        setSmallControllerAndNavigationBarColors(
-                            ContextCompat.getColor(
-                                applicationContext,
-                                R.color.grey_400
-                            ),
-                            Color.BLACK
-                        )
-                    }
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {}

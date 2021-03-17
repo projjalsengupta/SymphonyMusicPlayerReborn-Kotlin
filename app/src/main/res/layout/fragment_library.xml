@@ -9,7 +9,8 @@
         android:id="@+id/toolbarContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:windowBackground">
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
         <FrameLayout
             android:id="@+id/toolbar"
@@ -67,7 +68,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            app:tabGravity="center"
+            app:tabGravity="start"
+            app:tabIndicator="@drawable/tab_indicator"
+            app:tabIndicatorFullWidth="false"
             app:tabMode="scrollable" />
     </com.google.android.material.appbar.AppBarLayout>
 

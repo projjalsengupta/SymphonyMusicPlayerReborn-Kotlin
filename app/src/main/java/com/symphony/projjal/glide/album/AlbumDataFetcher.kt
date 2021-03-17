@@ -1,27 +1,22 @@
-package com.symphony.projjal.glide.song
+package com.symphony.projjal.glide.album
 
 import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.symphony.bitmaputils.BitmapUtils.getByteDataFromDrawable
-import com.symphony.bitmaputils.BitmapUtils.getByteDataFromFile
 import com.symphony.bitmaputils.BitmapUtils.getByteDataFromUri
-import com.symphony.mediastorequery.model.Song
-import com.symphony.projjal.R
-import com.symphony.projjal.glide.ErrorDrawable.getSongPlaceHolderDrawable
+import com.symphony.mediastorequery.model.Album
+import com.symphony.projjal.glide.ErrorDrawable.getAlbumPlaceHolderDrawable
 import java.nio.ByteBuffer
 
-class SongDataFetcher internal constructor(val model: Song, context: Context?) :
+class AlbumDataFetcher internal constructor(val model: Album, context: Context?) :
     DataFetcher<ByteBuffer> {
     private var context: Context?
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in ByteBuffer>) {
-        var data = getByteDataFromFile(context, model.fileUri)
+        var data = getByteDataFromUri(context, model.albumArtUri)
         if (data == null) {
-            data = getByteDataFromUri(context, model.albumArtUri)
-        }
-        if (data == null) {
-            data = getByteDataFromDrawable(context, getSongPlaceHolderDrawable(context))
+            data = getByteDataFromDrawable(context, getAlbumPlaceHolderDrawable(context))
         }
         if (data != null) {
             callback.onDataReady(ByteBuffer.wrap(data))

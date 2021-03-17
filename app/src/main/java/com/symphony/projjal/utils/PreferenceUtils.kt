@@ -72,7 +72,7 @@ object PreferenceUtils {
     var albumGridSize: Int
         get() {
             if (_albumGridSize == -1) {
-                _albumGridSize = Paper.book().read("albumGridSize", 2)
+                _albumGridSize = Paper.book().read("albumGridSize", 3)
             }
             return _albumGridSize
         }
@@ -150,7 +150,7 @@ object PreferenceUtils {
     var artistLayoutStyle: Int
         get() {
             if (_artistLayoutStyle == -1) {
-                _artistLayoutStyle = Paper.book().read("artistLayoutStyle", 4)
+                _artistLayoutStyle = Paper.book().read("artistLayoutStyle", 3)
             }
             return _artistLayoutStyle
         }

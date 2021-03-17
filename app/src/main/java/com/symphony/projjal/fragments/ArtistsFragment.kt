@@ -8,6 +8,7 @@ import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.R
 import com.symphony.projjal.adapters.ArtistsAdapter
 import com.symphony.projjal.fragments.LibraryItemFragment.Constants.FRAGMENT_ARTISTS
+import com.symphony.projjal.utils.FragmentUtils
 import com.symphony.projjal.utils.FragmentUtils.addFragment
 import com.symphony.projjal.utils.PreferenceUtils.artistGridSize
 import com.symphony.projjal.utils.PreferenceUtils.artistSortOrder
@@ -24,12 +25,13 @@ class ArtistsFragment : LibraryItemFragment() {
         adapter = ArtistsAdapter(
             context = activity,
             items = artists,
-            clickListener = {
+            clickListener = { it1, it2 ->
                 addFragment(
                     activity = activity as AppCompatActivity,
                     id = R.id.fragmentContainer,
-                    newFragment = ArtistContentFragment.newInstance(it),
-                    fragmentName = "artist ${it.id}"
+                    newFragment = ArtistContentFragment.newInstance(it1),
+                    fragmentName = "artist ${it1.id}",
+                    sharedImageView = FragmentUtils.SharedImageView(it2)
                 )
             },
             selectionChanged = {

@@ -11,7 +11,7 @@ import com.symphony.projjal.adapters.viewholders.NowPlayingQueueItemViewHolder
 import com.symphony.projjal.databinding.RecyclerviewItemNowPlayingQueueBinding
 
 class NowPlayingQueueAdapter(
-    private val queue: MutableList<Song?>,
+    private val queue: MutableList<Song>,
     private val clickListener: (Int) -> Unit,
     private val menuClicked: (View, Song?) -> Unit
 ) :
@@ -25,7 +25,7 @@ class NowPlayingQueueAdapter(
         return queue.size
     }
 
-    fun setQueue(queue: MutableList<Song?>) {
+    fun setQueue(queue: MutableList<Song>) {
         this.queue.clear()
         this.queue.addAll(queue)
         this.viewHolderMap.clear()

@@ -12,8 +12,10 @@ import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
+import com.symphony.mediastorequery.model.Album
 import com.symphony.mediastorequery.model.Artist
 import com.symphony.mediastorequery.model.Song
+import com.symphony.projjal.glide.album.AlbumLoaderFactory
 import com.symphony.projjal.glide.artist.ArtistLoaderFactory
 import com.symphony.projjal.glide.palette.PaletteBitmap
 import com.symphony.projjal.glide.palette.PaletteBitmapTranscoder
@@ -25,6 +27,7 @@ class SymphonyGlideModule : AppGlideModule() {
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         super.registerComponents(context, glide, registry)
         registry.prepend(Song::class.java, ByteBuffer::class.java, SongLoaderFactory(context))
+        registry.prepend(Album::class.java, ByteBuffer::class.java, AlbumLoaderFactory(context))
         registry.prepend(Artist::class.java, ByteBuffer::class.java, ArtistLoaderFactory(context))
         registry.register(
             Bitmap::class.java,

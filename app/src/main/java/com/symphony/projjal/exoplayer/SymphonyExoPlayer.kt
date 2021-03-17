@@ -29,9 +29,10 @@ import com.symphony.bitmaputils.BitmapUtils.drawableToBitmap
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.R
 import com.symphony.projjal.SymphonyApplication.Companion.applicationInstance
-import com.symphony.projjal.SymphonyGlideExtension.getSongPlaceHolderDrawable
+import com.symphony.projjal.glide.ErrorDrawable.getSongPlaceHolderDrawable
 import com.symphony.projjal.services.MusicService
 import com.symphony.projjal.utils.ConversionUtils.dpToPx
+import io.paperdb.Paper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -129,6 +130,10 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : EventListe
                 mediaSource?.setShuffleOrder(symphonyShuffleOrder)
             }
             player.shuffleModeEnabled = value
+            playerScope.launch(Dispatchers.IO) {
+                Paper.book("player").write("shuffleOrder", shuffleOrder ?: SymphonyShuffleOrder(0))
+                Paper.book("player").write("shuffle", value)
+            }
         }
 
     fun setShuffleWithoutResettingShuffleOrder(shuffle: Boolean) {
@@ -148,6 +153,9 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : EventListe
         get() = player.repeatMode
         set(value) {
             player.repeatMode = value
+            playerScope.launch(Dispatchers.IO) {
+                Paper.book("player").write("repeat", value)
+            }
         }
 
     fun changeRepeat() {
@@ -261,29 +269,47 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : EventListe
         }
     }
 
-    fun getQueueInPlayingOrder(): MutableList<Song?> {
-        val songs = mutableListOf<Song?>()
+    fun getQueueInPlayingOrder(): MutableList<Song> {
+        val songs = mutableListOf<Song>()
         val symphonyMediaSource = mediaSource ?: return songs
         if (!shuffle) {
             for (i in 0 until symphonyMediaSource.size) {
-                songs.add(convertMediaItemToSong(symphonyMediaSource.getMediaSource(i).mediaItem))
+                val song = convertMediaItemToSong(symphonyMediaSource.getMediaSource(i).mediaItem)
+                if (song != null) {
+                    songs.add(song)
+                }
             }
         } else {
             val symphonyShuffleOrder = shuffleOrder
             if (symphonyShuffleOrder == null) {
                 for (i in 0 until symphonyMediaSource.size) {
-                    songs.add(convertMediaItemToSong(symphonyMediaSource.getMediaSource(i).mediaItem))
+                    val song =
+                        convertMediaItemToSong(symphonyMediaSource.getMediaSource(i).mediaItem)
+                    if (song != null) {
+                        songs.add(song)
+                    }
                 }
             } else {
                 for (i in 0 until symphonyMediaSource.size) {
-                    songs.add(
-                        convertMediaItemToSong(
-                            symphonyMediaSource.getMediaSource(
-                                symphonyShuffleOrder.shuffled[i]
-                            ).mediaItem
-                        )
+                    val song = convertMediaItemToSong(
+                        symphonyMediaSource.getMediaSource(symphonyShuffleOrder.shuffled[i]).mediaItem
                     )
+                    if (song != null) {
+                        songs.add(song)
+                    }
                 }
+            }
+        }
+        return songs
+    }
+
+    fun getQueueInUnshuffledOrder(): MutableList<Song> {
+        val songs = mutableListOf<Song>()
+        val symphonyMediaSource = mediaSource ?: return songs
+        for (i in 0 until symphonyMediaSource.size) {
+            val song = convertMediaItemToSong(symphonyMediaSource.getMediaSource(i).mediaItem)
+            if (song != null) {
+                songs.add(song)
             }
         }
         return songs
@@ -296,28 +322,38 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : EventListe
     private var isPreparing = false
     private var isListShuffling = false
 
-    fun playList(songs: MutableList<Song>, position: Int = 0) {
+    fun playList(songs: MutableList<Song>, position: Int = 0, playWhenReady: Boolean = true) {
         shuffle = false
         mediaSource = createConcatenatingMediaSource(songs)
         player.setMediaSource(mediaSource!!)
         setDefaultWindowIndex(position)
         isPreparing = true
         player.prepare()
-        playWhenReady = true
+        this.playWhenReady = playWhenReady
     }
 
-    fun shuffleList(songs: MutableList<Song>) {
+    fun shuffleList(
+        songs: MutableList<Song>,
+        playWhenReady: Boolean = true,
+        windowIndex: Int = -1,
+        shuffleOrder: SymphonyShuffleOrder? = null
+    ) {
         shuffle = false
         mediaSource = createConcatenatingMediaSource(songs)
         player.setMediaSource(mediaSource!!)
-        val symphonyShuffleOrder = shuffleOrder
-        if (symphonyShuffleOrder != null && symphonyShuffleOrder.firstIndex != C.INDEX_UNSET) {
+        if (shuffleOrder != null) {
+            this.shuffleOrder = shuffleOrder
+        }
+        val symphonyShuffleOrder = this.shuffleOrder
+        if (windowIndex != -1) {
+            setDefaultWindowIndex(windowIndex)
+        } else if (symphonyShuffleOrder != null && symphonyShuffleOrder.firstIndex != C.INDEX_UNSET) {
             setDefaultWindowIndex(symphonyShuffleOrder.firstIndex)
         }
         isPreparing = true
         isListShuffling = true
         player.prepare()
-        playWhenReady = true
+        this.playWhenReady = playWhenReady
     }
 
     fun setDefaultWindowIndex(windowIndex: Int) {
@@ -440,7 +476,10 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : EventListe
                 return true
             }
 
-            override fun dispatchSetPlayWhenReady(player: Player, playWhenReady: Boolean): Boolean {
+            override fun dispatchSetPlayWhenReady(
+                player: Player,
+                playWhenReady: Boolean
+            ): Boolean {
                 this@SymphonyExoPlayer.playWhenReady = playWhenReady
                 return true
             }
@@ -497,8 +536,22 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : EventListe
             override fun isFastForwardEnabled(): Boolean {
                 return false
             }
-
         })
+
+        val songs = Paper.book("player").read("queue", mutableListOf<Song>())
+
+        val currentWindowIndex = Paper.book("player").read("currentWindowIndex", 0)
+
+        val shuffleOrder = Paper.book("player").read("shuffleOrder", SymphonyShuffleOrder(0))
+        val repeat = Paper.book("player").read("repeat", 0)
+        val shuffle = Paper.book("player").read("shuffle", false)
+
+        if (shuffle) {
+            shuffleList(songs, false, currentWindowIndex, shuffleOrder)
+        } else {
+            playList(songs, currentWindowIndex, false)
+        }
+        this.repeat = repeat
     }
 
     private fun startForeground(notification: Notification) {
@@ -560,7 +613,7 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : EventListe
     }
 
     interface EventListener {
-        fun onPlayingQueueChanged(queue: MutableList<Song?>)
+        fun onPlayingQueueChanged(queue: MutableList<Song>)
         fun onShuffleChanged(shuffle: Boolean)
         fun onRepeatChanged(repeat: Int)
         fun onIsPlayingChanged(isPlaying: Boolean)
@@ -594,6 +647,10 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : EventListe
             it.onPlayingQueueChanged(songs)
             it.onSongChanged(positionInPlayingOrder, currentSong)
         }
+        playerScope.launch(Dispatchers.IO) {
+            Paper.book("player").write("currentWindowIndex", positionInPlayingOrder)
+            Paper.book("player").write("queue", songs)
+        }
     }
 
     override fun onTimelineChanged(timeline: Timeline, reason: Int) {
@@ -606,9 +663,13 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : EventListe
                     positionInPlayingOrder,
                     songs[positionInPlayingOrder]
                 )
-                it.onPlaybackPositionChanged(0, songs[0]?.duration ?: 0)
+                it.onPlaybackPositionChanged(0, songs[0].duration)
             }
             mediaSession?.isActive = timeline.windowCount > 0
+            playerScope.launch(Dispatchers.IO) {
+                Paper.book("player").write("currentWindowIndex", positionInPlayingOrder)
+                Paper.book("player").write("queue", songs)
+            }
         }
     }
 
@@ -628,10 +689,14 @@ class SymphonyExoPlayer(val context: Context, val service: Service) : EventListe
             reason == MEDIA_ITEM_TRANSITION_REASON_SEEK
         ) {
             val song = convertMediaItemToSong(mediaItem)
+            val shuffle = shuffle
             val positionInPlayingOrder = getPositionInPlayingOrder(currentWindowIndex, shuffle)
             listeners.forEach {
                 it.onSongChanged(positionInPlayingOrder, song)
                 it.onPlaybackPositionChanged(0, song?.duration ?: 0)
+            }
+            playerScope.launch(Dispatchers.IO) {
+                Paper.book("player").write("currentWindowIndex", getPositionInPlayingOrder(positionInPlayingOrder, shuffle))
             }
         }
     }

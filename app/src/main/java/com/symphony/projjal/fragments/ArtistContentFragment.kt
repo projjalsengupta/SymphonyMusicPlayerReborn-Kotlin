@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -13,17 +14,19 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.ImageViewTarget
+import com.bumptech.glide.request.transition.Transition
 import com.symphony.mediastorequery.model.Artist
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
-import com.symphony.projjal.SymphonyGlideExtension.artistPlaceholder
 import com.symphony.projjal.activities.MainActivity
 import com.symphony.projjal.adapters.ArtistContentAdapter
 import com.symphony.projjal.databinding.FragmentArtistContentBinding
+import com.symphony.projjal.glide.BlurTransformation
 import com.symphony.projjal.glide.palette.PaletteBitmap
-import com.symphony.projjal.utils.ViewUtils.topFitsSystemWindows
+import com.symphony.projjal.utils.ViewUtils
 
 class ArtistContentFragment : BaseFragment(), View.OnClickListener {
     private var _binding: FragmentArtistContentBinding? = null
@@ -42,24 +45,42 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
         _binding = FragmentArtistContentBinding.inflate(inflater, container, false)
         setUpToolbar()
         setUpOnClickListeners()
-        load()
         setUpFragmentManagerBackstackListener()
+        setUpTransition()
+        setUpPadding()
         return binding.root
+    }
+
+
+    private fun setUpPadding() {
+        ViewUtils.topFitsSystemWindows(
+            view = binding.appBarLayout,
+            context = context,
+            orientation = resources.configuration.orientation
+        )
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
+        load()
+    }
+
+    private fun setUpTransition() {
+        val transition =
+            TransitionInflater.from(context).inflateTransition(R.transition.image_transition)
+        sharedElementEnterTransition = transition
+        sharedElementReturnTransition = transition
     }
 
     private fun setUpFragmentManagerBackstackListener() {
         activity?.supportFragmentManager?.addOnBackStackChangedListener {
-            if (backgroundColor != 0 || foregroundColor != 0) {
+            if (activity?.supportFragmentManager?.backStackEntryCount ?: 0 > 0 && (backgroundColor != 0 || foregroundColor != 0)) {
                 if (!isHidden) {
                     setSmallControllerAndNavigationBarColors(backgroundColor, foregroundColor)
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setUpPadding()
     }
 
     private fun setUpOnClickListeners() {
@@ -84,14 +105,6 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    private fun setUpPadding() {
-        topFitsSystemWindows(
-            view = binding.backgroundView,
-            context = activity,
-            orientation = resources.configuration.orientation
-        )
-    }
-
     private fun setRecyclerViewAdapter(textColor: Int) {
         val activity = activity
         if (activity != null) {
@@ -109,7 +122,7 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    private fun setAlbumDetails() {
+    private fun setArtistDetails() {
         binding.artistName.text = artist?.name
         val albumDetailsText =
             "${artist?.songCount} Songs - ${artist?.albumCount} Albums - ${artist?.durationText}"
@@ -122,25 +135,29 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
         if (artist == null) {
             activity?.supportFragmentManager?.popBackStack()
         }
-        binding.root.visibility = View.INVISIBLE
-        setAlbumDetails()
+        binding.image.transitionName = "artist${artist?.id}"
+        setArtistDetails()
+        GlideApp.with(binding.appBarLayout.context)
+            .load(artist)
+            .override(50, 50)
+            .transform(BlurTransformation(binding.appBarLayout.context))
+            .into(object : CustomTarget<Drawable?>() {
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable?>?
+                ) {
+                    binding.appBarLayout.background = resource
+                }
+            })
+
         GlideApp.with(binding.image.context)
             .`as`(PaletteBitmap::class.java)
             .load(artist)
             .override(binding.image.width, binding.image.height)
-            .artistPlaceholder(binding.image.context)
             .into(object : ImageViewTarget<PaletteBitmap?>(binding.image) {
-                override fun onLoadFailed(errorDrawable: Drawable?) {
-                    super.onLoadFailed(errorDrawable)
-                    val activity = activity
-                    if (activity != null) {
-                        showLayout(
-                            ContextCompat.getColor(activity, R.color.grey_400),
-                            ContextCompat.getColor(activity, R.color.black)
-                        )
-                    }
-                }
-
                 override fun setResource(resource: PaletteBitmap?) {
                     resource?.let {
                         showLayout(it.backgroundColor, it.foregroundColor)
@@ -163,28 +180,27 @@ class ArtistContentFragment : BaseFragment(), View.OnClickListener {
         setToolbarIconsColor(foregroundColor)
         binding.artistName.setTextColor(foregroundColor)
         binding.artistDetails.setTextColor(foregroundColor)
-        binding.gradientView.background = GradientDrawable(
+        binding.gradientBackgroundView.background = GradientDrawable(
             GradientDrawable.Orientation.TOP_BOTTOM,
             intArrayOf(Color.TRANSPARENT, backgroundColor)
         )
 
-        binding.play.background.setTint(foregroundColor)
-        binding.play.setTextColor(backgroundColor)
-        binding.play.icon.setTint(backgroundColor)
-        binding.play.rippleColor = ColorStateList.valueOf(backgroundColor)
-        binding.shuffleAll.strokeColor = ColorStateList.valueOf(foregroundColor)
-        binding.shuffleAll.setTextColor(foregroundColor)
-        binding.shuffleAll.icon.setTint(foregroundColor)
-        binding.shuffleAll.rippleColor = ColorStateList.valueOf(foregroundColor)
+        binding.play.setTextColor(foregroundColor)
+        binding.play.rippleColor = ColorStateList.valueOf(foregroundColor)
+        binding.addToQueue.setTextColor(foregroundColor)
+        binding.addToQueue.rippleColor = ColorStateList.valueOf(foregroundColor)
+        binding.shuffleAll.imageTintList = ColorStateList.valueOf(backgroundColor)
+        binding.shuffleAll.backgroundTintList = ColorStateList.valueOf(foregroundColor)
 
         setRecyclerViewAdapter(foregroundColor)
         animateRecyclerView()
-        binding.root.visibility = View.VISIBLE
 
         setSmallControllerAndNavigationBarColors(backgroundColor, foregroundColor)
 
         this.backgroundColor = backgroundColor
         this.foregroundColor = foregroundColor
+
+        startPostponedEnterTransition()
     }
 
     private fun setSmallControllerAndNavigationBarColors(

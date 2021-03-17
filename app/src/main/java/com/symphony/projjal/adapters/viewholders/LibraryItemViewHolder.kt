@@ -18,13 +18,7 @@ import com.symphony.colorutils.ColorUtils.adjustAlpha
 import com.symphony.colorutils.ColorUtils.contrastColor
 import com.symphony.colorutils.ColorUtils.getColor
 import com.symphony.projjal.*
-import com.symphony.projjal.SymphonyGlideExtension.albumPlaceholder
-import com.symphony.projjal.SymphonyGlideExtension.artistPlaceholder
-import com.symphony.projjal.SymphonyGlideExtension.songPlaceholder
-import com.symphony.projjal.adapters.viewholders.LibraryItemViewHolder.Constants.TYPE_ALBUM
-import com.symphony.projjal.adapters.viewholders.LibraryItemViewHolder.Constants.TYPE_ARTIST
 import com.symphony.projjal.adapters.viewholders.LibraryItemViewHolder.Constants.TYPE_HORIZONTAL_ALBUM
-import com.symphony.projjal.adapters.viewholders.LibraryItemViewHolder.Constants.TYPE_SONG
 import com.symphony.projjal.customviews.SymphonyImageView
 import com.symphony.projjal.glide.palette.PaletteBitmap
 import com.symphony.themeengine.ThemeEngine
@@ -104,21 +98,6 @@ class LibraryItemViewHolder(
             .`as`(PaletteBitmap::class.java)
             .load(item)
 
-        when (type) {
-            TYPE_SONG -> {
-                loader = loader.songPlaceholder(itemView.context)
-            }
-            TYPE_ALBUM -> {
-                loader = loader.albumPlaceholder(itemView.context)
-            }
-            TYPE_HORIZONTAL_ALBUM -> {
-                loader = loader.albumPlaceholder(itemView.context)
-            }
-            TYPE_ARTIST -> {
-                loader = loader.artistPlaceholder(itemView.context)
-            }
-        }
-
         if (gridSize == 1) {
             //loader = loader.small()
             when (imageStyle) {
@@ -150,25 +129,6 @@ class LibraryItemViewHolder(
         target = loader
             .override(image.width, image.height)
             .into(object : ImageViewTarget<PaletteBitmap?>(image) {
-                override fun onLoadFailed(errorDrawable: Drawable?) {
-                    super.onLoadFailed(errorDrawable)
-
-                    if (gridSize > 1) {
-                        setLayoutStyle(
-                            backgroundColor = ContextCompat.getColor(context, R.color.grey_400),
-                            foregroundColor = Color.BLACK,
-                            layoutStyle = layoutStyle
-                        )
-                    }
-
-                    image.startAnimation(
-                        AnimationUtils.loadAnimation(
-                            itemView.context,
-                            R.anim.fade_in_image
-                        )
-                    )
-                }
-
                 override fun setResource(resource: PaletteBitmap?) {
                     if (resource != null && !resource.bitmap.isRecycled) {
                         image.setImageBitmap(resource.bitmap)

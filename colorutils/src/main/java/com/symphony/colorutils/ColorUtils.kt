@@ -6,6 +6,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.View
@@ -17,11 +18,11 @@ import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.palette.graphics.Palette
 import androidx.palette.graphics.Palette.Swatch
-import java.lang.Exception
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.hypot
 import kotlin.math.roundToInt
+
 
 object ColorUtils {
     fun getColor(context: Context?, resId: Int): Int {
@@ -163,7 +164,8 @@ object ColorUtils {
         fromColor: Int,
         toColor: Int,
         view: View,
-        duration: Long = 500
+        duration: Long = 500,
+        gradient: Boolean = false
     ): Animator? {
         return try {
             val backgroundColorAnimation = ValueAnimator.ofObject(
@@ -173,7 +175,16 @@ object ColorUtils {
             )
             backgroundColorAnimation.duration = duration
             backgroundColorAnimation.addUpdateListener { animator ->
-                view.setBackgroundColor(animator.animatedValue as Int)
+                val color = animator.animatedValue as Int
+                if (gradient) {
+                    val drawable = GradientDrawable(
+                        GradientDrawable.Orientation.LEFT_RIGHT,
+                        intArrayOf(color, adjustAlpha(color, 0.5f))
+                    )
+                    view.background = drawable
+                } else {
+                    view.setBackgroundColor(color)
+                }
             }
             backgroundColorAnimation.start()
             backgroundColorAnimation

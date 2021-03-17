@@ -17,6 +17,7 @@ import com.symphony.projjal.databinding.RecyclerviewItemArtistSongBinding
 import com.symphony.projjal.databinding.RecyclerviewItemHeadingBinding
 import com.symphony.projjal.databinding.RecyclerviewItemHorizontalRecyclerviewAlbumItemBinding
 import com.symphony.projjal.fragments.AlbumContentFragment
+import com.symphony.projjal.utils.FragmentUtils
 import com.symphony.projjal.utils.FragmentUtils.addFragment
 
 class ArtistContentAdapter(
@@ -91,12 +92,13 @@ class ArtistContentAdapter(
                     parent,
                     false
                 )
-                return ArtistAlbumsItemViewHolder(binding, clickListener = {
+                return ArtistAlbumsItemViewHolder(binding, clickListener = { it1, it2 ->
                     addFragment(
                         activity = activity,
                         id = R.id.fragmentContainer,
-                        newFragment = AlbumContentFragment.newInstance(it),
-                        fragmentName = "album ${it.id}"
+                        newFragment = AlbumContentFragment.newInstance(it1),
+                        fragmentName = "album ${it1.id}",
+                        sharedImageView = FragmentUtils.SharedImageView(it2)
                     )
                 })
             }

@@ -192,7 +192,7 @@ class ThemeEngine(val context: Context) {
 
     var theme: Int
         get() {
-            val theme: Int = Paper.book().read("theme", 3)
+            val theme: Int = Paper.book().read("theme", 1)
             val accentColor: Int = Paper.book().read("accentColor", 3)
             return try {
                 val fieldName =
@@ -201,10 +201,10 @@ class ThemeEngine(val context: Context) {
                 if (obj is Int) {
                     obj
                 } else {
-                    R.style.Symphony_Black_Theme3
+                    R.style.Symphony_Light_Theme3
                 }
             } catch (ignored: Exception) {
-                R.style.Symphony_Black_Theme3
+                R.style.Symphony_Light_Theme3
             }
         }
         set(theme) {

@@ -7,10 +7,10 @@ import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.adapters.viewholders.NowPlayingViewPagerItemViewHolder
 import com.symphony.projjal.databinding.NowPlayingImageViewBinding
 
-class NowPlayingViewPagerAdapter(private val queue: MutableList<Song?>) :
+class NowPlayingViewPagerAdapter(private val queue: MutableList<Song>) :
     RecyclerView.Adapter<NowPlayingViewPagerItemViewHolder>() {
 
-    fun setQueue(queue: MutableList<Song?>) {
+    fun setQueue(queue: MutableList<Song>) {
         this.queue.clear()
         this.queue.addAll(queue)
         notifyDataSetChanged()

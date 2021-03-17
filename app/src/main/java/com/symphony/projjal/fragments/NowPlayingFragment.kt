@@ -26,12 +26,10 @@ import com.symphony.colorutils.ColorUtils.getColor
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
-import com.symphony.projjal.SymphonyApplication.Companion.applicationInstance
 import com.symphony.projjal.activities.MainActivity
 import com.symphony.projjal.adapters.NowPlayingBottomDetailsAdapter
 import com.symphony.projjal.adapters.NowPlayingViewPagerAdapter
 import com.symphony.projjal.databinding.FragmentNowPlayingBinding
-import com.symphony.projjal.exoplayer.SymphonyExoPlayer
 import com.symphony.projjal.glide.palette.PaletteBitmap
 import com.symphony.projjal.utils.ConversionUtils.milisToTimeString
 import com.symphony.projjal.utils.PreferenceUtils.nowPlayingColorChangingAnimationStyle
@@ -354,7 +352,7 @@ class NowPlayingFragment : BaseFragment(), View.OnClickListener, SeekBar.OnSeekB
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
     }
 
-    override fun onPlayingQueueChanged(queue: MutableList<Song?>) {
+    override fun onPlayingQueueChanged(queue: MutableList<Song>) {
         if (nowPlayingViewPagerAdapter == null) {
             nowPlayingViewPagerAdapter = NowPlayingViewPagerAdapter(queue)
             binding.nowPlayingViewPager.apply {

@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.ImageViewTarget
@@ -21,16 +20,14 @@ import com.symphony.mediastorequery.MediaStoreQuery
 import com.symphony.mediastorequery.model.Album
 import com.symphony.mediastorequery.model.Artist
 import com.symphony.mediastorequery.model.Song
-import com.symphony.projjal.*
-import com.symphony.projjal.SymphonyGlideExtension.albumPlaceholder
+import com.symphony.projjal.GlideApp
+import com.symphony.projjal.R
 import com.symphony.projjal.activities.MainActivity
 import com.symphony.projjal.adapters.AlbumContentAdapter
 import com.symphony.projjal.databinding.FragmentAlbumContentBinding
 import com.symphony.projjal.glide.BlurTransformation
 import com.symphony.projjal.glide.palette.PaletteBitmap
-import com.symphony.projjal.utils.PreferenceUtils.albumGridSize
-import com.symphony.projjal.utils.PreferenceUtils.albumImageStyle
-import com.symphony.projjal.utils.PreferenceUtils.albumLayoutStyle
+import com.symphony.projjal.utils.ViewUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,7 +50,16 @@ class AlbumContentFragment : BaseFragment(), View.OnClickListener {
         setUpOnClickListeners()
         setUpFragmentManagerBackstackListener()
         setUpTransition()
+        setUpPadding()
         return binding.root
+    }
+
+    private fun setUpPadding() {
+        ViewUtils.topFitsSystemWindows(
+            view = binding.appBarLayout,
+            context = context,
+            orientation = resources.configuration.orientation
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,7 +77,7 @@ class AlbumContentFragment : BaseFragment(), View.OnClickListener {
 
     private fun setUpFragmentManagerBackstackListener() {
         activity?.supportFragmentManager?.addOnBackStackChangedListener {
-            if (backgroundColor != 0 || foregroundColor != 0) {
+            if (activity?.supportFragmentManager?.backStackEntryCount ?: 0 > 0 && (backgroundColor != 0 || foregroundColor != 0)) {
                 if (!isHidden) {
                     setSmallControllerAndNavigationBarColors(backgroundColor, foregroundColor)
                 }
@@ -133,7 +139,7 @@ class AlbumContentFragment : BaseFragment(), View.OnClickListener {
         if (album == null) {
             activity?.supportFragmentManager?.popBackStack()
         }
-        binding.image.transitionName = "${album?.id}"
+        binding.image.transitionName = "album${album?.id}"
         CoroutineScope(Dispatchers.IO).launch {
             val singleArtistList =
                 album?.artistId?.let { MediaStoreQuery(context).getArtistById(it) }
@@ -143,7 +149,7 @@ class AlbumContentFragment : BaseFragment(), View.OnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 setAlbumDetails()
                 GlideApp.with(binding.appBarLayout.context)
-                    .load(album?.albumArtUri)
+                    .load(album)
                     .override(50, 50)
                     .transform(BlurTransformation(binding.appBarLayout.context))
                     .into(object : CustomTarget<Drawable?>() {
@@ -160,21 +166,9 @@ class AlbumContentFragment : BaseFragment(), View.OnClickListener {
 
                 GlideApp.with(binding.image.context)
                     .`as`(PaletteBitmap::class.java)
-                    .load(album?.albumArtUri)
+                    .load(album)
                     .override(binding.image.width, binding.image.height)
-                    .albumPlaceholder(binding.image.context)
                     .into(object : ImageViewTarget<PaletteBitmap?>(binding.image) {
-                        override fun onLoadFailed(errorDrawable: Drawable?) {
-                            super.onLoadFailed(errorDrawable)
-                            val activity = activity
-                            if (activity != null) {
-                                showLayout(
-                                    ContextCompat.getColor(activity, R.color.grey_400),
-                                    ContextCompat.getColor(activity, R.color.black)
-                                )
-                            }
-                        }
-
                         override fun setResource(resource: PaletteBitmap?) {
                             resource?.let {
                                 showLayout(it.backgroundColor, it.foregroundColor)

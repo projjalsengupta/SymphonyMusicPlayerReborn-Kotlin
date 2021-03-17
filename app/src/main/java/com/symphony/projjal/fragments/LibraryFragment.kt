@@ -11,6 +11,7 @@ import com.afollestad.materialcab.attached.destroy
 import com.afollestad.materialcab.attached.isActive
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.symphony.colorutils.ColorUtils.adjustAlpha
 import com.symphony.projjal.GlideApp
 import com.symphony.projjal.R
 import com.symphony.projjal.adapters.LibraryPagerAdapter
@@ -83,6 +84,12 @@ class LibraryFragment : BaseFragment() {
             binding.libraryViewPager.setCurrentItem(tab.position, true)
         }.attach()
 
+        val themeEngine = ThemeEngine(activity)
+        binding.tabLayout.setTabTextColors(
+            adjustAlpha(themeEngine.textColorPrimary, 0.33f),
+            themeEngine.textColorPrimary
+        )
+
         binding.libraryViewPager.post {
             startPostponedEnterTransition()
         }
@@ -109,7 +116,7 @@ class LibraryFragment : BaseFragment() {
             binding.title.text = getString(R.string.app_name)
             binding.title.setTextColor(ThemeEngine(activity).textColorPrimary)
             binding.search.setColorFilter(ThemeEngine(activity).textColorPrimary)
-            binding.toolbarContainer.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            binding.toolbarContainer.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
                 binding.toolbar.alpha = 1 -
                         (abs(verticalOffset).toFloat() / binding.toolbar.height.toFloat())
             })

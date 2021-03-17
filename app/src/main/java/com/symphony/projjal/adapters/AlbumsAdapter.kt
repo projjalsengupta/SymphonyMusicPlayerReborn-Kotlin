@@ -73,7 +73,7 @@ class AlbumsAdapter(
                 holder.bind(
                     primaryText = album.title,
                     secondaryText = album.artist,
-                    item = album.albumArtUri,
+                    item = album,
                     gridSize = albumGridSize,
                     layoutStyle = albumLayoutStyle,
                     imageStyle = albumImageStyle,
@@ -90,7 +90,7 @@ class AlbumsAdapter(
                     addOrRemoveItemFromSelection(album)
                     true
                 }
-                holder.image.transitionName = "${album.id}"
+                holder.image.transitionName = "album${album.id}"
             }
             is LibraryHeaderItemViewHolder -> {
                 holder.bind(

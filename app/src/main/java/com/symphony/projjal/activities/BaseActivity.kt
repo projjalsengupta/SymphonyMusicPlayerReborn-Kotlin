@@ -23,7 +23,7 @@ open class BaseActivity : AppCompatActivity(), SymphonyExoPlayer.EventListener {
         musicService = null
     }
 
-    override fun onPlayingQueueChanged(queue: MutableList<Song?>) {
+    override fun onPlayingQueueChanged(queue: MutableList<Song>) {
     }
 
     override fun onShuffleChanged(shuffle: Boolean) {

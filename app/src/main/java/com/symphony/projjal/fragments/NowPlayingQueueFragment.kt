@@ -57,7 +57,7 @@ class NowPlayingQueueFragment : BaseFragment() {
         }
     }
 
-    override fun onPlayingQueueChanged(queue: MutableList<Song?>) {
+    override fun onPlayingQueueChanged(queue: MutableList<Song>) {
         currentQueue.clear()
         currentQueue.addAll(queue)
         if (nowPlayingQueueAdapter == null) {

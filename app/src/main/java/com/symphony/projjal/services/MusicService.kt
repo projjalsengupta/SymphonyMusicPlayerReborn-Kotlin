@@ -79,7 +79,7 @@ class MusicService : Service() {
 
     val currentTimeline: Timeline? get() = player?.currentTimeline
 
-    val queueInPlayingOrder: MutableList<Song?>
+    val queueInPlayingOrder: MutableList<Song>
         get() = player?.getQueueInPlayingOrder() ?: mutableListOf()
 
     val currentWindowIndex: Int get() = player?.currentWindowIndex ?: 0

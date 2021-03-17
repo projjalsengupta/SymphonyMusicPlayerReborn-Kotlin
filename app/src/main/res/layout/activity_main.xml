@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sothree:umanoPanelHeight="0dp"
-        sothree:umanoShadowHeight="4dp">
+        sothree:umanoPanelHeight="0dp">
 
         <FrameLayout
             android:id="@+id/fragmentContainer"
@@ -27,14 +26,12 @@
             <FrameLayout
                 android:id="@+id/nowPlayingContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+                android:layout_height="match_parent" />
 
             <FrameLayout
                 android:id="@+id/smallControlsContainer"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:visibility="visible" />
+                android:layout_height="?actionBarSize" />
         </FrameLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

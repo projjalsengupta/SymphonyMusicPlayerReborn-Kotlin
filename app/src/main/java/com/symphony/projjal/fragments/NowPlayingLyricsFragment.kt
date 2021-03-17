@@ -1,16 +1,14 @@
 package com.symphony.projjal.fragments
 
 import android.os.Bundle
-import android.text.Html
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.simplecityapps.ktaglib.KTagLib
 import com.symphony.mediastorequery.model.Song
 import com.symphony.projjal.R
 import com.symphony.projjal.databinding.FragmentNowPlayingLyricsBinding
-import com.symphony.projjal.utils.LyricsUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -41,17 +39,24 @@ class NowPlayingLyricsFragment : BaseFragment() {
     }
 
     private fun setLyrics(song: Song?) {
+        if (song == null) {
+            return
+        }
         binding.lyrics.scrollTo(0, 0)
         binding.lyrics.text = ""
         nowPlayingLyricsFragmentScope.launch(Dispatchers.IO) {
-            val lyrics: String? = try {
-                LyricsUtil.findLyrics(context, song?.fileUri)
+            var lyrics: String?
+            try {
+                activity?.contentResolver?.openFileDescriptor(song.fileUri, "r").use {
+                    lyrics =
+                        if (it != null) KTagLib.getMetadata(it.fd).propertyMap["LYRICS"]?.get(0) else null
+                }
             } catch (ignored: Exception) {
-                null
+                lyrics = null
             }
             currentLoadedSong = song
             nowPlayingLyricsFragmentScope.launch {
-                if (lyrics == null) {
+                if (lyrics == null || lyrics?.trim() == "") {
                     binding.lyrics.text = getString(R.string.no_lyrics_found)
                 } else {
                     binding.lyrics.text = lyrics
